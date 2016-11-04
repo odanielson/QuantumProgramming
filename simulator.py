@@ -1,9 +1,17 @@
 
 from gates import Hadamard, Identity
-from qubit import Qubits
+from qubit import Qubits, Zero, One
 
 
 def simple_test():
+
+    print "Zero Qubit: 1|0> + 0|1>"
+    print Zero.state
+    print ""
+
+    print "One Qubit: 0|0> + 1|1>"
+    print One.state
+    print ""
 
     print "Hadamard on 1 qubit: H | (1|0> + 0|1>)"
     qubits = Qubits(1)
