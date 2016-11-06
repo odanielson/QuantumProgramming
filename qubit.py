@@ -21,9 +21,7 @@ class Qubits(object):
     def __pow__(self, n):
         if n == 1:
             return self
-        elif n == 2:
-            return self * self
-        elif n > 2:
+        elif n > 1:
             return self * (self ** (n-1))
 
         raise AssertionError("Qubits ** %d not supported" % n)
