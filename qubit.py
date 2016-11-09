@@ -29,6 +29,13 @@ class Qubits(object):
     def __str__(self):
         return 'Qubits(%d)' % self.n
 
+    def distribution(self):
+        """
+        Return the discrete probability distribution for measuring
+        one of the states of the entire quantum computer as a list.
+        The position of the list indicates the corresponding state.
+        """
+        return np.real(np.multiply(self.state, np.conjugate(self.state)))
 
 Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex256))
 One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex256))

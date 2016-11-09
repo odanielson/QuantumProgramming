@@ -17,6 +17,11 @@ def simple_test():
     qubits = Qubits(1)
     (Hadamard) | qubits
     print qubits.state
+
+    print "Non-collapsing peak of probability distribution:"
+    print qubits.distribution()
+    print ""
+
     print ""
     print "Hadamard again: H | H | (1|0> + 0|1>)"
     Hadamard | qubits
