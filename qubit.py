@@ -7,7 +7,7 @@ class Qubits(object):
     def __init__(self, n=1, state=None):
 
         if state is not None:
-            assert len(state) == 2**n, "invalid state %s for n=%d" % (s, n)
+            assert state.shape == (2**n, 1), "invalid state %s for n=%d" % (state, n)
             self.n = n
             self.state = state
 
@@ -30,5 +30,5 @@ class Qubits(object):
         return 'Qubits(%d)' % self.n
 
 
-Zero = Qubits(state=np.array([1.0, 0.0], dtype=np.complex256))
-One = Qubits(state=np.array([0.0, 1.0], dtype=np.complex256))
+Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex256))
+One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex256))
