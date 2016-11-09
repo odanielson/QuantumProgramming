@@ -26,7 +26,7 @@ class Gate(object):
         """Apply gate on `qubits`."""
         assert isinstance(qubits, Qubits), (
             "A gate can only be applied on a Qubits object")
-        qubits.state = np.dot(self.matrix, qubits.state)
+        qubits.state = self.matrix * qubits.state
 
     def __str__(self):
         return self.name
