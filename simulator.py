@@ -17,11 +17,18 @@ def simple_test():
     qubits = Qubits(1)
     (Hadamard) | qubits
     print qubits.state
+
+    print "Non-collapsing measurement:"
+    print qubits.measure()
+    print ""
+
     print ""
     print "Hadamard again: H | H | (1|0> + 0|1>)"
     Hadamard | qubits
     print qubits.state
     print ""
+
+
 
     print "Hadamard and Idenity on 2 qubits: H*I | (1|00> + 0|01> + 0|10> + 0|11>)"
     qubits = Qubits(2)
