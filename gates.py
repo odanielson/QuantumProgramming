@@ -37,3 +37,11 @@ Hadamard = Gate('Hadamard',
                           dtype=np.complex256) / np.sqrt(2))
 Identity = Gate('Identity',
                np.matrix([[1.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
+
+# TODO: Verify this is true
+ToZero = Gate('ZeroProjection',
+               np.matrix([[1.0, 1.0], [0.0, 0.0]], dtype=np.complex256))
+
+# TODO: Verify this is true
+ToOne = Gate('OneProjection',
+             np.matrix([[0.0, 0.0], [1.0, 1.0]], dtype=np.complex256))
