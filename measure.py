@@ -10,8 +10,8 @@ def get_bit(i, k, n):
 
 def measure(qubits, i):
     """Measure qubit `i` in `qubits` and return 0 or 1. Index `i` from 0."""
-    assert i < 2**qubits.n, (
-        "qubit %d can not be measured in %d-qubit state" % (i, self.n))
+    assert i < qubits.n, (
+        "qubit %d can not be measured in %d-qubit state" % (i, qubits.n))
     distribution = qubits.distribution()
     p = np.squeeze(np.asarray(distribution, dtype=np.float64))
     index = np.random.choice(np.arange(2**qubits.n), p=p)
