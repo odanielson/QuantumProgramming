@@ -38,6 +38,28 @@ def simple_test():
     print qubits.state
     print ""
 
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
+    print ""
+
+    print "Measure second qubit 3 times"
+    print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
+    print ""
+
+    print "Hadamard and Hadamard on 2 qubits: H*H | (1|00> + 0|01> + 0|10> + 0|11>)"
+    qubits = Qubits(2)
+    (Hadamard * Hadamard) | qubits
+    print ""
+
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
+    print ""
+
+    print "Measure second qubit 3 times"
+    print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
+    print ""
+
+
 
 if __name__ == "__main__":
 
