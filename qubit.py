@@ -29,6 +29,9 @@ class Qubits(object):
     def __str__(self):
         return 'Qubits(%d)' % self.n
 
+    def normalize(self):
+        print "normalize not implemented yet"
+
     def distribution(self):
         """
         Return the discrete probability distribution for measuring

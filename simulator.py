@@ -1,7 +1,7 @@
 
 from gates import Hadamard, Identity
 from qubit import Qubits, Zero, One
-
+from measure import measure
 
 def simple_test():
 
@@ -20,6 +20,10 @@ def simple_test():
 
     print "Non-collapsing peak of probability distribution:"
     print qubits.distribution()
+    print ""
+
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
     print ""
 
     print ""
