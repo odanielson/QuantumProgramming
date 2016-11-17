@@ -1,8 +1,6 @@
 
 import numpy as np
 
-from qubit import Qubits
-
 
 class Gate(object):
     """Gate represent a Quantum gate.
@@ -18,14 +16,33 @@ class Gate(object):
         self.name = name
         self.matrix = matrix
 
-    def __mul__(self, gate):
-        assert isinstance(gate, Gate)
-        return Gate('Custom', np.kron(self.matrix, gate.matrix))
+    def __mul__(self, b):
+        if isinstance(b, int):
+            return Gate('Custom', b*self.matrix)
+
+        if isinstance(b, Gate):
+            return Gate('Custom', np.kron(self.matrix, b.matrix))
+
+        raise TypeError("Gate * %s not supported" % type(b))
+
+    def __rmul__(self, b):
+        return self.__mul__(b)
+
+
+    def __pow__(self, n):
+        if n == 0:
+            return 1
+
+        elif n == 1:
+            return self
+
+        elif n > 1:
+            return self * (self ** (n-1))
+
+        raise AssertionError("Gate ** %d not supported" % n)
 
     def __or__(self, qubits):
         """Apply gate on `qubits`."""
-        assert isinstance(qubits, Qubits), (
-            "A gate can only be applied on a Qubits object")
         qubits.state = self.matrix * qubits.state
 
     def __str__(self):
@@ -38,10 +55,8 @@ Hadamard = Gate('Hadamard',
 Identity = Gate('Identity',
                np.matrix([[1.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
 
-# TODO: Verify this is true
 ToZero = Gate('ZeroProjection',
-               np.matrix([[1.0, 1.0], [0.0, 0.0]], dtype=np.complex256))
+               np.matrix([[1.0, 0.0], [0.0, 0.0]], dtype=np.complex256))
 
-# TODO: Verify this is true
 ToOne = Gate('OneProjection',
-             np.matrix([[0.0, 0.0], [1.0, 1.0]], dtype=np.complex256))
+             np.matrix([[0.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
