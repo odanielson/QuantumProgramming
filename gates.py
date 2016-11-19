@@ -43,7 +43,7 @@ class Gate(object):
 
     def __or__(self, qubits):
         """Apply gate on `qubits`."""
-        qubits.state = self.matrix * qubits.state
+        qubits.state = np.asarray(self.matrix * qubits.state)
 
     def __str__(self):
         return self.name
