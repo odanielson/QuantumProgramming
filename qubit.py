@@ -30,7 +30,8 @@ class Qubits(object):
         return 'Qubits(%d)' % self.n
 
     def normalize(self):
-        self.state = self.state / np.linalg.norm(self.state)
+        norm = np.sqrt(np.real(np.sum(self.state*np.conjugate(self.state))))
+        self.state = self.state / norm
 
     def distribution(self):
         """
