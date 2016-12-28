@@ -1,6 +1,6 @@
 
 import numpy as np
-
+from gates import ToZero, ToOne, Identity
 
 class Qubits(object):
 
@@ -29,6 +29,10 @@ class Qubits(object):
     def __str__(self):
         return 'Qubits(%d)' % self.n
 
+    def normalize(self):
+        norm = np.sqrt(np.real(np.sum(self.state*np.conjugate(self.state))))
+        self.state = self.state / norm
+
     def distribution(self):
         """
         Return the discrete probability distribution for measuring
@@ -36,6 +40,7 @@ class Qubits(object):
         The position of the list indicates the corresponding state.
         """
         return np.real(np.multiply(self.state, np.conjugate(self.state)))
+
 
 Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex256))
 One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex256))

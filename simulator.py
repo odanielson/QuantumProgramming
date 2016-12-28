@@ -1,7 +1,7 @@
 
 from gates import Hadamard, Identity
 from qubit import Qubits, Zero, One
-
+from measure import measure
 
 def simple_test():
 
@@ -22,6 +22,10 @@ def simple_test():
     print qubits.distribution()
     print ""
 
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
+    print ""
+
     print ""
     print "Hadamard again: H | H | (1|0> + 0|1>)"
     Hadamard | qubits
@@ -33,6 +37,28 @@ def simple_test():
     (Hadamard * Identity) | qubits
     print qubits.state
     print ""
+
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
+    print ""
+
+    print "Measure second qubit 3 times"
+    print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
+    print ""
+
+    print "Hadamard and Hadamard on 2 qubits: H*H | (1|00> + 0|01> + 0|10> + 0|11>)"
+    qubits = Qubits(2)
+    (Hadamard * Hadamard) | qubits
+    print ""
+
+    print "Measure first qubit 3 times"
+    print measure(qubits, 0), measure(qubits, 0), measure(qubits, 0)
+    print ""
+
+    print "Measure second qubit 3 times"
+    print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
+    print ""
+
 
 
 if __name__ == "__main__":
