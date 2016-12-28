@@ -60,3 +60,11 @@ ToZero = Gate('ZeroProjection',
 
 ToOne = Gate('OneProjection',
              np.matrix([[0.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
+
+X = Gate('X', np.matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex256))
+
+CNOT = Gate('CNOT',
+            np.matrix([[1.0, 0.0, 0.0, 0.0],
+                       [0.0, 1.0, 0.0, 0.0],
+                       [0.0, 0.0, 0.0, 1.0],
+                       [0.0, 0.0, 1.0, 0.0]], dtype=np.complex256))
