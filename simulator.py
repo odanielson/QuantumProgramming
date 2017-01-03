@@ -1,5 +1,5 @@
 
-from gates import Hadamard, Identity
+from gates import Hadamard, Identity, X, CNOT
 from qubit import Qubits, Zero, One
 from measure import measure
 
@@ -59,6 +59,12 @@ def simple_test():
     print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
     print ""
 
+    print "CNOT on two qubits |10>, expecting |11>"
+    qubits = Qubits(2)
+    (X * Identity) | qubits
+    CNOT | qubits
+    print measure(qubits, 0), measure(qubits, 1)
+    print ""
 
 
 if __name__ == "__main__":
