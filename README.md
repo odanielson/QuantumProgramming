@@ -10,26 +10,22 @@
     qcode - internal program representation of source containing declarations,
             macros, gates, register concept, measurements, etc
 
-    @compiler - transform internal program representation to a quantum gate array
+    @compiler - transform internal program representation to a quantum gate
+                array
 
-    gate array - gates operating on the entire set of qubits in each step
+    gate array - sequence of operations on qubits
 
-    @driver - feed the gate array to an implementation of a quantum computer (physical or not)
+    @driver - feed the gate array to an implementation of a quantum computer
+              (physical or not)
 
     quantum computer
 
 
-## Gate Array
+### Gate Array
 
 The gate array is an ordered list of elements representing operations on the
-quantum computer. The first element is an initialization vector for the qubits
-(implicitly defining the number of qubits). Then comes gates or measurement
-operations.
-
-
-The gate array is a list of named tuples, the number of qubits used
-in the computation. Each tuple representes a tensor product of the elements in
-the tuples, with the first element acting on the first qubit, and so on.
+quantum computer. Each element is a named tuple. The type represent the
+operation and the fields which qubit to act on etc.
 
     [
        Start(4),
@@ -41,7 +37,7 @@ the tuples, with the first element acting on the first qubit, and so on.
     ]
 
 
-## Driver
+### Driver
 
 The driver takes a gate array as input, and outputs the values of the
 qubits, if measured. Ex:
@@ -57,3 +53,7 @@ qubits, if measured. Ex:
 ## Usage
 
     python simulator.py
+
+or
+
+    python qcode.py

@@ -1,6 +1,8 @@
 
 
 class Macro:
+    """A macro with a sequence of operations or sub macro calls."""
+
     def __init__(self, arguments, sequence):
         self.arguments = arguments
         self.sequence = sequence
@@ -10,6 +12,8 @@ class Macro:
 
 
 class Register:
+    """A register with one to many qubits."""
+
     def __init__(self, qbits):
         self.qbits = qbits
 
@@ -18,7 +22,8 @@ class Register:
 
 
 class Operation:
-    """A gate aplied to a register."""
+    """A gate applied to a register."""
+
     def __init__(self, operator, arguments):
         self.operator = operator
         self.arguments = arguments
@@ -28,6 +33,8 @@ class Operation:
 
 
 class MacroCall:
+    """A macro call with arguments."""
+
     def __init__(self, name, arguments):
         self.name = name
         self.arguments = arguments
@@ -51,6 +58,8 @@ class Sequence:
 
 
 class QCode:
+    """Internal program representation."""
+
     def __init__(self):
         self.macros = {}
         self.registers = {}
@@ -65,7 +74,8 @@ class QCode:
         self.program = sequence
 
     def __repr__(self):
-        return 'Register: %s\nMacros: %s\nProgram: %s' % (repr(self.registers), repr(self.macros), repr(self.program))
+        return 'Register: %s\nMacros: %s\nProgram: %s' % (
+            repr(self.registers), repr(self.macros), repr(self.program))
 
 
 if __name__ == "__main__":
@@ -86,5 +96,3 @@ if __name__ == "__main__":
 
 
     print repr(code)
-
- 
