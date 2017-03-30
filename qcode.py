@@ -1,7 +1,10 @@
 
 
+
 class Macro:
-    """A macro with a sequence of operations or sub macro calls."""
+    """A macro with arguments which can be registers or variables and
+    a sequence of operations or macro calls.
+    """
 
     def __init__(self, arguments, sequence):
         self.arguments = arguments
@@ -22,7 +25,7 @@ class Register:
 
 
 class Operation:
-    """A gate applied to a register."""
+    """A gate applied to arguments which can be registers or variables."""
 
     def __init__(self, operator, arguments):
         self.operator = operator
@@ -33,7 +36,7 @@ class Operation:
 
 
 class MacroCall:
-    """A macro call with arguments."""
+    """A macro call with arguments which can be registers or variables."""
 
     def __init__(self, name, arguments):
         self.name = name
@@ -45,7 +48,7 @@ class MacroCall:
 
 class Sequence:
     """
-    A sequence of macros or operations on qubits or registers.
+    A sequence of macro calls or operations on qubits or registers.
     """
     def __init__(self):
         self.elements = []
@@ -76,23 +79,3 @@ class QCode:
     def __repr__(self):
         return 'Register: %s\nMacros: %s\nProgram: %s' % (
             repr(self.registers), repr(self.macros), repr(self.program))
-
-
-if __name__ == "__main__":
-
-    code = QCode()
-    code.add_register('q0', Register([0]))
-    code.add_register('q1', Register([1]))
-
-    hello_sequence = Sequence()
-    hello_sequence.add(Operation('X', ['a']))
-    hello_sequence.add(Operation('H', ['a']))
-
-    code.add_macro('hello', Macro(['a'], hello_sequence))
-    program_sequence = Sequence()
-    program_sequence.add(MacroCall('hello', 'q0'))
-    program_sequence.add(MacroCall('hello', 'q1'))
-    code.add_program(program_sequence)
-
-
-    print repr(code)

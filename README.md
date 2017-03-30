@@ -30,7 +30,8 @@ operation and the fields which qubit to act on etc.
     [
        Start(4),
        X(3),
-       H(0,2),
+       H(0),
+       H(2),
        CNOT(1,2),
        M(1),
        M(2)
