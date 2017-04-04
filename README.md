@@ -57,4 +57,4 @@ qubits, if measured. Ex:
 
 or
 
-    python qcode.py
+    python qcodeprogram.py
