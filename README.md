@@ -28,7 +28,7 @@ quantum computer. Each element is a named tuple. The type represent the
 operation and the fields which qubit to act on etc.
 
     [
-       Start(4),
+       START(4),
        X(3),
        H(0),
        H(2),
