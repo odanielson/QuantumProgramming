@@ -5,6 +5,7 @@ import copy
 from qcode import Operation, MacroCall, Sequence
 from gatearray import str_to_gate, START
 
+
 def get_num_bits(qcode):
     highest_bit = 0
     for reg in qcode.registers.values():
@@ -12,8 +13,10 @@ def get_num_bits(qcode):
            highest_bit = max(reg.qbits)
     return highest_bit + 1
 
+
 def get_start_code(qcode):
     return START(n=get_num_bits(qcode))
+
 
 def qcompile(qcode):
     gate_array = []
@@ -38,22 +41,34 @@ def unroll_sequence(sequence, call_symbols):
 
     return new_seq
 
+
 def get_macro_to_macrocall_arguments_map(macro_args, macrocall_args):
     call_symbols = {}
     for (i, arg) in enumerate(macro_args):
         call_symbols[arg] = macrocall_args[i]
     return call_symbols
 
+
+def compile_operation(registers, operation):
+    gate = str_to_gate[operation.operator]
+    gate_array = []
+
+    #  Pre-condition: All registers have the same number of qbits.
+    register_width = len(registers[operation.arguments[0]].qbits)
+
+    for i in xrange(register_width):
+        indices = [registers[arg].qbits[i] for arg in operation.arguments]
+        gate_array.append(gate(*indices))
+
+    return gate_array
+
+
 def compile_sequence(qcode, sequence):
     gate_array = []
     for item in sequence.elements:
 
         if isinstance(item, Operation):
-            gate = str_to_gate[item.operator]
-            for i in xrange(len(qcode.registers[item.arguments[0]].qbits)):
-                indices = [qcode.registers[argument].qbits[i] for
-                           argument in item.arguments]
-                gate_array.append(gate(*indices))
+            gate_array += compile_operation(qcode.registers, item)
 
         elif isinstance(item, MacroCall):
             macro = qcode.macros[item.name]
