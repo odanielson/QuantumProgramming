@@ -3,6 +3,22 @@ from gates import Hadamard, Identity, X, CNOT
 from qubit import Qubits, Zero, One
 from measure import measure
 
+def expand_single_gate(gate, num_qbits):
+    left_bits =
+    right_bits =
+    return (Identity ** left_bits) * 
+
+def run_gate_array(gate_array):
+    start = gate_array.pop()
+    num_qbits = start.n
+
+    qubits = Qubits(num_qbits)
+
+    for gate in gate_array:
+        if isinstance(gate, X):
+            expand_single_gate(gate, num_qbits) | qubits
+
+
 def simple_test():
 
     print "Zero Qubit: 1|0> + 0|1>"
