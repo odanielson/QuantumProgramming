@@ -50,9 +50,10 @@ def compile_sequence(qcode, sequence):
 
         if isinstance(item, Operation):
             gate = str_to_gate[item.operator]
-            indices = [qcode.registers[argument].qbits[0] for
-                       argument in item.arguments]
-            gate_array.append(gate(*indices))
+            for i in xrange(len(qcode.registers[item.arguments[0]].qbits)):
+                indices = [qcode.registers[argument].qbits[i] for
+                           argument in item.arguments]
+                gate_array.append(gate(*indices))
 
         elif isinstance(item, MacroCall):
             macro = qcode.macros[item.name]
