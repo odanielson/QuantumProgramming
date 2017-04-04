@@ -28,9 +28,10 @@ quantum computer. Each element is a named tuple. The type represent the
 operation and the fields which qubit to act on etc.
 
     [
-       Start(4),
+       START(4),
        X(3),
-       H(0,2),
+       H(0),
+       H(2),
        CNOT(1,2),
        M(1),
        M(2)
@@ -56,4 +57,4 @@ qubits, if measured. Ex:
 
 or
 
-    python qcode.py
+    python qcodeprogram.py
