@@ -13,7 +13,6 @@ START = namedtuple('START', 'n')
 X = namedtuple('X', 'i')
 CNOT = namedtuple('CNOT', 'ctrl target')
 H = namedtuple('H', 'i')
-M = namedtuple('M', 'i')
 I = namedtuple('I', 'i')
 
 
@@ -21,5 +20,5 @@ str_to_gate = {
     'X': X,
     'CNOT': CNOT,
     'H': H,
-    'M': M
+    'I': I
 }
