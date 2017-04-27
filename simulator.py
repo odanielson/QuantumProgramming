@@ -1,7 +1,48 @@
 
+import gatearray
 from gates import Hadamard, Identity, X, CNOT
 from qubit import Qubits, Zero, One
 from measure import measure
+
+
+gate_array_gate_to_simulator_gate_map = {
+    gatearray.H: Hadamard,
+    gatearray.X: X,
+    gatearray.CNOT: CNOT,
+    gatearray.I: Identity
+}
+
+
+def pretty_format_distribution(distribution):
+    return ", ".join((str(x[0]) for x in list(distribution)))
+
+
+def expand_single_gate(gate, i, num_qbits):
+    left_bits = i
+    right_bits = num_qbits - 1 - i
+
+    return (Identity ** left_bits) * gate * (Identity ** right_bits)
+
+
+def run_gate_array(gate_array):
+    start = gate_array.pop(0)
+    num_qbits = start.n
+
+    qubits = Qubits(num_qbits)
+    print "Initial state:", pretty_format_distribution(qubits.distribution())
+
+    for gate in gate_array:
+        simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
+        if gate in [gatearray.CNOT]:
+            assert False, "not implemented"
+
+        else:
+            expand_single_gate(simulator_gate, gate.i, num_qbits) | qubits
+
+    print "Final state:", pretty_format_distribution(qubits.distribution())
+    print "Qubit measure:", ", ".join(
+        [str(measure(qubits, i)) for i in xrange(num_qbits)])
+
 
 def simple_test():
 

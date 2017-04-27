@@ -32,9 +32,7 @@ operation and the fields which qubit to act on etc.
        X(3),
        H(0),
        H(2),
-       CNOT(1,2),
-       M(1),
-       M(2)
+       CNOT(1,2)
     ]
 
 
