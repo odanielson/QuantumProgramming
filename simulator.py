@@ -24,6 +24,14 @@ def expand_single_gate(gate, i, num_qbits):
     return (Identity ** left_bits) * gate * (Identity ** right_bits)
 
 
+def expand_double_gate(gate, i, j, num_qbits):
+    assert j == i + 1, "Operation only implemented for j == i + 1"
+    left_bits = i
+    right_bits = num_qbits - 2 - i
+
+    return (Identity ** left_bits) * gate * (Identity ** right_bits)
+
+
 def run_gate_array(gate_array):
     start = gate_array.pop(0)
     num_qbits = start.n
@@ -33,8 +41,9 @@ def run_gate_array(gate_array):
 
     for gate in gate_array:
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
-        if gate in [gatearray.CNOT]:
-            assert False, "not implemented"
+        if isinstance(gate, gatearray.CNOT):
+            expand_double_gate(simulator_gate, gate.ctrl, gate.target,
+                               num_qbits) | qubits
 
         else:
             expand_single_gate(simulator_gate, gate.i, num_qbits) | qubits
