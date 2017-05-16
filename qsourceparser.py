@@ -60,23 +60,22 @@ Block = namedtuple("Block", "head body")
 
 
 def parse_blocks(lines):
+    """Returns `[]Block` from `lines`."""
     blocks = []
-    head = lines.pop(0)
-    print "indentation level: %d" % head.indentation
-    body = []
     while len(lines) > 0:
-        line = lines[0]
-        if line.indentation == head.indentation:
-            print "Adding head %s, body %s" % (head, body)
-            blocks += Block(head, body)
-            head = lines.pop(0)
-            body = []
+        head = lines.pop(0)
 
-        elif line.indentation == head.indentation + 1:
-            body = parse_blocks(lines)
+        if len(lines) > 0:
+            next_line = lines[0]
+            if next_line.indentation == head.indentation:
+                blocks.append(Block(head, []))
 
-        else:
-            raise AssertionError()
+            elif next_line.indentation > head.indentation:
+                blocks.append(Block(head, parse_blocks(lines)))
+
+            elif next_line.indentation < head.indentation:
+                blocks.append(Block(head, []))
+                return blocks
 
     return blocks
 
@@ -150,16 +149,24 @@ def parse_blocks(lines):
 #                                  "operator or keyword" % (line.operator,
 #                                                           line.linenumber))
 
-def parse(text):
+def parse(text, verbose=True):
     """Return QCode object from qsource text input."""
 
     lines = parse_lines(text)
-    print "\n".join([str(line) for line in lines])
+    if verbose:
+        print "\nLine representation:\n"
+        print "\n".join([str(line) for line in lines])
 
     blocks = parse_blocks(lines)
-    # qcode = parse_instructions(lines)
 
-    print repr(blocks)
+    def print_blocks(blocks):
+        for block in blocks:
+            print "%sBlock: %s" % (" " * block.head.indentation *4, block.head)
+            print_blocks(block.body)
+
+    if verbose:
+        print "\nBlock representation:\n"
+        print_blocks(blocks)
 
 if __name__ == "__main__":
 
