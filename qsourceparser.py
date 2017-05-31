@@ -8,8 +8,11 @@ IndentedLine = namedtuple("IndentedLine", "linenumber raw indentation")
 
 Line = namedtuple("Line", "linenumber raw indentation operator arguments")
 
+Block = namedtuple("Block", "head body")
+
 
 def indentation_level(line):
+    """Return indentation level in `line (Line)`."""
     level = 0
     try:
         while line.raw[level] == " ":
@@ -23,6 +26,7 @@ def indentation_level(line):
 
 
 def no_comments(line):
+    """Return `line (str)` stripped from comments."""
     position = line.find(';')
     if position >= 0:
         return line[:position]
@@ -31,6 +35,7 @@ def no_comments(line):
 
 
 def parse_lines(text):
+    """Return `[]Line` from qsource found in `text (str)`."""
     raw_lines = [RawLine(i, no_comments(line)) for i, line in
                  enumerate(text.splitlines())]
 
@@ -56,11 +61,8 @@ def parse_lines(text):
     return lines
 
 
-Block = namedtuple("Block", "head body")
-
-
 def parse_blocks(lines):
-    """Returns `[]Block` from `lines`."""
+    """Returns `[]Block` from `lines ([]Line)`."""
     blocks = []
     while len(lines) > 0:
         head = lines.pop(0)
@@ -79,75 +81,6 @@ def parse_blocks(lines):
 
     return blocks
 
-# op arg1
-# macro hello
-#    op arg1
-#    loop 3
-#        op arg1 arg2
-#        loop 7
-#             op arg1
-# op arg1
-
-# 0 op arg1
-# 0 macro hello
-# 1 op arg1
-# 1 loop 3
-# 2 op arg1 arg2
-# 2 loop 7
-# 3 op arg1
-# 0 op arg1
-
-
-# 0 op arg1
-#
-# 0 macro hello
-# 1 op arg1
-# 1 loop 3
-# 2 op arg1 arg2
-# 2 loop 7
-# 3 op arg1
-#
-# 0 op arg1
-
-# return blocks(section1) ++ blocks(section2) ++ blocks(section3)
-
-
-# def parse_blocks(lines, indentation=0):
-
-#     head = lines.pop(0)
-#     body = []
-#     while lines and (head.indentation + 1 == lines[0].indentation):
-#         body.append(lines.pop(0))
-
-#     return Block(head, body)
-
-
-# def parse_macro(head, tail):
-#     macro_name = head.arguments[0]
-#     macros[macro_name] = []
-#     while len(tail) > 0 and head.indentation + 1 = tail[0].indentation:
-#         macros[macro_name].append(tail.pop(0))
-
-#     return tail
-
-
-# def parse_instructions(lines):
-#     assert len(lines) > 0, "There must be at least 1 instruction"
-#     level = lines[0].indentation
-
-#     while len(lines) > 0:
-#         line = lines.pop(0)
-
-#         if line.operator in operators:
-#             pass
-
-#         elif line.operator == 'macro':
-#             lines = parse_macro(line, lines)
-
-#         else:
-#             raise AssertionError("Operator %s on line %d is neither a valid "
-#                                  "operator or keyword" % (line.operator,
-#                                                           line.linenumber))
 
 def parse(text, verbose=True):
     """Return QCode object from qsource text input."""
@@ -167,6 +100,7 @@ def parse(text, verbose=True):
     if verbose:
         print "\nBlock representation:\n"
         print_blocks(blocks)
+
 
 if __name__ == "__main__":
 
