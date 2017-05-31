@@ -28,7 +28,6 @@ class Gate(object):
     def __rmul__(self, b):
         return self.__mul__(b)
 
-
     def __pow__(self, n):
         if n == 0:
             return 1
@@ -53,10 +52,10 @@ Hadamard = Gate('Hadamard',
                 np.matrix([[1.0, 1.0], [1.0, -1.0]],
                           dtype=np.complex256) / np.sqrt(2))
 Identity = Gate('Identity',
-               np.matrix([[1.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
+                np.matrix([[1.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
 
 ToZero = Gate('ZeroProjection',
-               np.matrix([[1.0, 0.0], [0.0, 0.0]], dtype=np.complex256))
+              np.matrix([[1.0, 0.0], [0.0, 0.0]], dtype=np.complex256))
 
 ToOne = Gate('OneProjection',
              np.matrix([[0.0, 0.0], [0.0, 1.0]], dtype=np.complex256))

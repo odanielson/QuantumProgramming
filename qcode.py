@@ -1,6 +1,5 @@
 
 
-
 class Macro:
     """A macro with arguments which can be registers or variables and
     a sequence of operations or macro calls.

@@ -82,7 +82,8 @@ def simple_test():
     print qubits.state
     print ""
 
-    print "Hadamard and Idenity on 2 qubits: H*I | (1|00> + 0|01> + 0|10> + 0|11>)"
+    print ("Hadamard and Idenity on 2 qubits: "
+           "H*I | (1|00> + 0|01> + 0|10> + 0|11>)")
     qubits = Qubits(2)
     (Hadamard * Identity) | qubits
     print qubits.state
@@ -96,7 +97,8 @@ def simple_test():
     print measure(qubits, 1), measure(qubits, 1), measure(qubits, 1)
     print ""
 
-    print "Hadamard and Hadamard on 2 qubits: H*H | (1|00> + 0|01> + 0|10> + 0|11>)"
+    print ("Hadamard and Hadamard on 2 qubits: "
+           "H*H | (1|00> + 0|01> + 0|10> + 0|11>)")
     qubits = Qubits(2)
     (Hadamard * Hadamard) | qubits
     print ""

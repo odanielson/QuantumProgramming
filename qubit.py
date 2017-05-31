@@ -1,13 +1,14 @@
 
 import numpy as np
-from gates import ToZero, ToOne, Identity
+
 
 class Qubits(object):
 
     def __init__(self, n=1, state=None):
 
         if state is not None:
-            assert state.shape == (2**n, 1), "invalid state %s for n=%d" % (state, n)
+            assert state.shape == (2**n, 1), (
+                "invalid state %s for n=%d" % (state, n))
             self.n = n
             self.state = state
 
