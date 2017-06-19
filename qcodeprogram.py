@@ -6,7 +6,7 @@ from qcode import QCode, Sequence, Register, Macro, MacroCall, Operation
 if __name__ == "__main__":
 
     code = QCode()
-    code.add_register('q0', Register([0,1]))
+    code.add_register('q0', Register([0, 1]))
     code.add_register('q1', Register([2]))
     code.add_register('q2', Register([3]))
     code.add_register('q3', Register([4]))
@@ -14,7 +14,6 @@ if __name__ == "__main__":
     hello_sequence = Sequence()
     hello_sequence.add(Operation('X', ['a']))
     hello_sequence.add(Operation('H', ['a']))
-
 
     code.add_macro('hello', Macro(['a'], hello_sequence))
     program_sequence = Sequence()
@@ -24,7 +23,6 @@ if __name__ == "__main__":
     program_sequence.add(Operation('H', ['q2']))
     program_sequence.add(Operation('CNOT', ['q2', 'q3']))
     code.add_program(program_sequence)
-
 
     print repr(code)
 

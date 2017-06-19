@@ -9,8 +9,8 @@ from gatearray import str_to_gate, START
 def get_num_bits(qcode):
     highest_bit = 0
     for reg in qcode.registers.values():
-       if max(reg.qbits) > highest_bit:
-           highest_bit = max(reg.qbits)
+        if max(reg.qbits) > highest_bit:
+            highest_bit = max(reg.qbits)
     return highest_bit + 1
 
 
@@ -72,7 +72,8 @@ def compile_sequence(qcode, sequence):
 
         elif isinstance(item, MacroCall):
             macro = qcode.macros[item.name]
-            call_symbols = get_macro_to_macrocall_arguments_map(macro.arguments, item.arguments)
+            call_symbols = get_macro_to_macrocall_arguments_map(
+                macro.arguments, item.arguments)
             unrolled = unroll_sequence(macro.sequence, call_symbols)
             gate_array += compile_sequence(qcode, unrolled)
 

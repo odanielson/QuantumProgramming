@@ -8,6 +8,7 @@ def get_bit(i, k, n):
     """Return value of bit `i` for `n` qubit state `k`."""
     return (k >> (n-1-i)) & 0x1
 
+
 def measure(qubits, i):
     """Measure qubit `i` in `qubits` and return 0 or 1. Index `i` from 0."""
     assert i < qubits.n, (

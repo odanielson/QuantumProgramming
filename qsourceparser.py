@@ -42,7 +42,6 @@ def parse_lines(text):
     raw_lines = [line for line in raw_lines if
                  line.raw and not line.raw.isspace()]
 
-
     indented_lines = [IndentedLine(
         line.linenumber, line.raw, indentation_level(line))
         for line in raw_lines]
@@ -94,7 +93,8 @@ def parse(text, verbose=True):
 
     def print_blocks(blocks):
         for block in blocks:
-            print "%sBlock: %s" % (" " * block.head.indentation *4, block.head)
+            print "%sBlock: %s" % (" " * block.head.indentation * 4,
+                                   block.head)
             print_blocks(block.body)
 
     if verbose:
