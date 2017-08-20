@@ -1,6 +1,7 @@
 
 from collections import namedtuple
 import sys
+import qcode
 
 RawLine = namedtuple("RawLine", "linenumber raw")
 
@@ -82,6 +83,52 @@ def parse_blocks(lines):
 
     return blocks
 
+def parse_register(source):
+    """Parse a string representation of a register and return a tuple
+    with its name and register object. E.g. 'q2[2,3]' -> (q2,Register([2,3]))."""
+    (name, _, tail) = source.partition('[')
+    (elements0, _, _) = tail.partition(']')
+    elements1 = elements0.split(':')
+    elements = [int(s) for s in elements1]
+    return (name, qcode.Register(elements))
+
+def parse_macro(qc, block):
+    name = block.head.arguments[0]
+    args = block.head.arguments[1:]
+    seq = parse_sequence(qc, block.body)
+    return (name, args, seq)
+
+
+def parse_sequence(qc, blocks):
+    """Parse a sequence of blocks and store macros and register in
+    the `qc` QCode object.
+    """
+    seq = qcode.Sequence()
+    for block in blocks:
+        if block.head.operator == 'register':
+            (name, reg) = parse_register(block.head.arguments[0])
+            qc.add_register(name, reg)
+        elif block.head.operator == 'macro':
+            (name, args, s) = parse_macro(qc, block)
+            qc.add_macro(name, qcode.Macro(args, s))
+        elif block.head.operator in ['X', 'H', 'CNOT']:
+            op = block.head.operator
+            args = block.head.arguments
+            seq.add(qcode.Operation(op, args))
+        else:  # macro call
+            name = block.head.operator
+            args = block.head.arguments
+            seq.add(qcode.MacroCall(name, args))
+    return seq
+
+
+def parse_qcode(blocks):
+    """Returns a qcode.Sequence corresponding to the blocks."""
+    qc = qcode.QCode()
+    seq = parse_sequence(qc, blocks)
+    qc.add_program(seq)
+    return qc
+
 
 def parse(text, verbose=True):
     """Return QCode object from qsource text input."""
@@ -102,6 +149,15 @@ def parse(text, verbose=True):
     if verbose:
         print "\nBlock representation:\n"
         print_blocks(blocks)
+
+    qc = parse_qcode(blocks)
+
+    def print_qcode(qc):
+        print repr(qc)
+
+    if verbose:
+        print "\nQcode representation\n"
+        print_qcode(qc)
 
 
 if __name__ == "__main__":

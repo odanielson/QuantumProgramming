@@ -1,5 +1,5 @@
 
-reqister q1[0:7]
+register q1[0:7]
 register q2[8:15]
 
 macro kalle r
@@ -24,4 +24,6 @@ H q1
 
 ada
 hello q1 q2
+
+X q1
 
