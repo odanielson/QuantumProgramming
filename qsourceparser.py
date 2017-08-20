@@ -77,6 +77,8 @@ def parse_blocks(lines):
             elif next_line.indentation < head.indentation:
                 blocks.append(Block(head, []))
                 return blocks
+        else:
+             blocks.append(Block(head, []))
 
     return blocks
 
