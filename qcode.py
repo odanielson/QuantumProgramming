@@ -75,6 +75,12 @@ class QCode:
     def add_program(self, sequence):
         self.program = sequence
 
+    def get_macros(self):
+        s = ""
+        for k, v in self.macros.iteritems():
+            s += "  %s: %r\n" % (k, v)
+        return s
+
     def __repr__(self):
-        return 'Register: %s\nMacros: %s\nProgram: %s' % (
-            repr(self.registers), repr(self.macros), repr(self.program))
+        return 'Register: %s\n\nMacros:\n%s\nProgram: %s' % (
+            repr(self.registers), self.get_macros(), repr(self.program))
