@@ -159,6 +159,7 @@ def parse(text, verbose=True):
         print "\nQcode representation\n"
         print_qcode(qc)
 
+    return qc
 
 if __name__ == "__main__":
 
