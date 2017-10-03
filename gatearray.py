@@ -9,16 +9,17 @@ Important notes:
 from collections import namedtuple
 
 
-START = namedtuple('START', 'n')
-X = namedtuple('X', 'i')
 CNOT = namedtuple('CNOT', 'ctrl target')
 H = namedtuple('H', 'i')
 I = namedtuple('I', 'i')
-
+START = namedtuple('START', 'n')
+SWAP = namedtuple('SWAP', 'a b')
+X = namedtuple('X', 'i')
 
 str_to_gate = {
-    'X': X,
     'CNOT': CNOT,
     'H': H,
-    'I': I
+    'I': I,
+    'SWAP': SWAP,
+    'X': X
 }
