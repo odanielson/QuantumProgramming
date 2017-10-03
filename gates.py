@@ -9,7 +9,7 @@ class Gate(object):
 
         Gate * Gate   => Tensor product between gate and gate
         Gate | qubits => Gate applied on qubits state
-
+        Gate | Gate   => Matrix product between gate and gate
     """
 
     def __init__(self, name, matrix):
@@ -40,9 +40,15 @@ class Gate(object):
 
         raise AssertionError("Gate ** %d not supported" % n)
 
-    def __or__(self, qubits):
-        """Apply gate on `qubits`."""
-        qubits.state = np.asarray(self.matrix * qubits.state)
+    def __or__(self, target):
+        """Multiply gates or Apply gate on `qubits`."""
+        if isinstance(target, Gate):
+            return Gate('Custom', self.matrix * target.matrix)
+
+        # target is qubits
+        target.state = np.asarray(self.matrix * target.state)
+
+
 
     def __str__(self):
         return self.name
