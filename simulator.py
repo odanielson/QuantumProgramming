@@ -28,22 +28,20 @@ def expand_single_gate(gate, i, num_qbits):
 def expand_double_gate(gate, i, j, num_qbits):
     assert i < j, "Operation only implemented for i < j"
 
-    pre_operator = Identity ** num_qbits
-    post_operator = Identity ** num_qbits
-    while i < j - 1:
-        swap_operator = expand_double_gate(SWAP, i, i+1, num_qbits)
-        # Swap up i one qubit before real operator
-        pre_operator = pre_operator | swap_operator
-        # Swap down i one qubit after real operator
-        post_operator = swap_operator | post_operator
-        i += 1
+    k = j - 1
+    left_bits = k
+    right_bits = num_qbits - 2 - k
 
-    left_bits = i
-    right_bits = num_qbits - 2 - i
+    operator = (Identity ** left_bits) * gate * (Identity ** right_bits)
 
-    return (pre_operator |
-            (Identity ** left_bits) * gate * (Identity ** right_bits) |
-            post_operator)
+    # Swap left bit until it is left of right bit before real gate operator
+    # and swap it left again after real gate operator
+    while k > i:
+        swap_operator = expand_double_gate(SWAP, k-1, k, num_qbits)
+        operator = swap_operator | operator | swap_operator
+        k -= 1
+
+    return operator
 
 
 def run_gate_array(gate_array):
