@@ -1,6 +1,6 @@
 
 import gatearray
-from gates import Hadamard, Identity, X, CNOT
+from gates import Hadamard, Identity, X, CNOT, SWAP
 from qubit import Qubits, Zero, One
 from measure import measure
 
@@ -9,7 +9,8 @@ gate_array_gate_to_simulator_gate_map = {
     gatearray.H: Hadamard,
     gatearray.X: X,
     gatearray.CNOT: CNOT,
-    gatearray.I: Identity
+    gatearray.I: Identity,
+    gatearray.SWAP: SWAP
 }
 
 
@@ -25,11 +26,22 @@ def expand_single_gate(gate, i, num_qbits):
 
 
 def expand_double_gate(gate, i, j, num_qbits):
-    assert j == i + 1, "Operation only implemented for j == i + 1"
-    left_bits = i
-    right_bits = num_qbits - 2 - i
+    assert i < j, "Operation only implemented for i < j"
 
-    return (Identity ** left_bits) * gate * (Identity ** right_bits)
+    k = j - 1
+    left_bits = k
+    right_bits = num_qbits - 2 - k
+
+    operator = (Identity ** left_bits) * gate * (Identity ** right_bits)
+
+    # Swap left bit until it is left of right bit before real gate operator
+    # and swap it left again after real gate operator
+    while k > i:
+        swap_operator = expand_double_gate(SWAP, k-1, k, num_qbits)
+        operator = swap_operator | operator | swap_operator
+        k -= 1
+
+    return operator
 
 
 def run_gate_array(gate_array):
@@ -43,6 +55,10 @@ def run_gate_array(gate_array):
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
         if isinstance(gate, gatearray.CNOT):
             expand_double_gate(simulator_gate, gate.ctrl, gate.target,
+                               num_qbits) | qubits
+
+        elif isinstance(gate, gatearray.SWAP):
+            expand_double_gate(simulator_gate, gate.a, gate.b,
                                num_qbits) | qubits
 
         else:
