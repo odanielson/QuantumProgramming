@@ -76,9 +76,5 @@ CNOT = Gate('CNOT',
 
 # The swap operator swaps 2 qubits.
 # The four states should be mapped as 00->00, 01->10, 10->01 and 11->11.
-# This is realized by switching state 2 and 3 as in the following matrix
-SWAP = Gate('SWAP',
-            np.matrix([[1.0, 0.0, 0.0, 0.0],
-                       [0.0, 0.0, 1.0, 0.0],
-                       [0.0, 1.0, 0.0, 0.0],
-                       [0.0, 0.0, 0.0, 1.0]], dtype=np.complex256))
+# This is realized by the following operator identity.
+SWAP = CNOT | Hadamard**2 | CNOT | Hadamard**2 | CNOT
