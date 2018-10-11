@@ -46,9 +46,7 @@ class Gate(object):
             return Gate('Custom', self.matrix * target.matrix)
 
         # target is qubits
-        target.state = np.asarray(self.matrix * target.state)
-
-
+        target.apply_operator(self.matrix)
 
     def __str__(self):
         return self.name

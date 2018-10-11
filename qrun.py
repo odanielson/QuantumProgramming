@@ -3,7 +3,6 @@ import sys
 
 from qcodecompiler import qcompile
 from qsourceparser import parse
-from simulator import run_gate_array
 
 
 def run(filename):
@@ -15,9 +14,20 @@ def run(filename):
 
 if __name__ == "__main__":
     try:
-        filename = sys.argv[1]
+        driver = sys.argv[1]
+        filename = sys.argv[2]
+
     except IndexError:
-        print("Usage: %s <sourcefile>")
+        print("Usage: %s [vector|density] <sourcefile>" % sys.argv[0])
         exit(1)
+
+    if driver == 'vector':
+        from drivers.vector.simulator import run_gate_array
+
+    elif driver == 'density':
+        from drivers.density.simulator import run_gate_array
+
+    else:
+        print("Driver %s not found" % driver)
 
     run(filename)

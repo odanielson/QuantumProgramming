@@ -20,7 +20,6 @@
 
     quantum computer
 
-
 ### Gate Array
 
 The gate array is an ordered list of elements representing operations on the
@@ -43,6 +42,12 @@ qubits, if measured. Ex:
 
     (0, N/A, 1)
 
+Available drivers are
+
+| Driver            | Description           |
+| ----------------- | --------------------- |
+| drivers/vector    | linear algebra driver |
+| drivers/density   | density matrix driver |
 
 ## Installation
 
