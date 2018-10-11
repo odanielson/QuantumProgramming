@@ -9,21 +9,19 @@ register y1[5]
 
 
 macro f_constant x f
-    ; X=0 => f=0
-    ; X=1 => f=0
-    ; nothing to do, f is already 0
+    ; x=0 => f=1
+    ; x=1 => f=1
     X f
 
 macro f_constant_unentangle x f
     ; x=0, f=0 => f=0
     ; x=1, f=0 => f=0
-    ; nothing to do, f is already 0
+    ; nothing to do, f and x is not entangled
 
 macro f_balanced x f
-    ; X=0 => f=0
+    ; x=0 => f=0
     ; x=1 => f=1
     CNOT x f
-    X f
 
 macro f_balanced_unentangle x f
     ; x=0, f=0 => f=0
