@@ -48,7 +48,7 @@ macro deutsch_post2 x
 ; function_unentangle x t  (unentangle t)
 ; deutsch_post2 x   (prepare x for measurement)
 
-; contant example
+; constant example
 deutsch_pre x0 y0
 f_constant x0 t0
 deutsch_post t0 y0
