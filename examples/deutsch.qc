@@ -52,7 +52,7 @@ macro deutsch_post2 x
 deutsch_pre x0 y0
 f_constant x0 t0
 deutsch_post t0 y0
-f_constant_unentangle x1 t1
+f_constant_unentangle x0 t0
 deutsch_post2 x0  ; Constant function should give 0 in x0
 
 ; non constant example
