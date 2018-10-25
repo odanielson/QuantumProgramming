@@ -15,7 +15,7 @@ gate_array_gate_to_simulator_gate_map = {
 
 
 def pretty_format_distribution(distribution):
-    return ", ".join((str(x[0]) for x in list(distribution)))
+    return ", ".join((str(x) for x in list(distribution)))
 
 
 def expand_single_gate(gate, i, num_qbits):
@@ -65,9 +65,9 @@ def run_gate_array(gate_array):
             expand_single_gate(simulator_gate, gate.i, num_qbits) | qubits
 
     print "Final state:", pretty_format_distribution(qubits.distribution())
-    print "Qubit measure:", ", ".join(
-        [str(measure(qubits, i)) for i in xrange(num_qbits)])
-
+    measurement = [measure(qubits, i) for i in xrange(num_qbits)]
+    print "Qubit measure:", ", ".join((str(q) for q in measurement))
+    return measurement
 
 def simple_test():
 
