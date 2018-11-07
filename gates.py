@@ -1,4 +1,5 @@
 
+import qmath
 import numpy as np
 
 
@@ -65,6 +66,10 @@ ToOne = Gate('OneProjection',
              np.matrix([[0.0, 0.0], [0.0, 1.0]], dtype=np.complex256))
 
 X = Gate('X', np.matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex256))
+
+T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]], dtype=np.complex256))
+
+Td = Gate('Td', qmath.dagger(T.matrix))
 
 CNOT = Gate('CNOT',
             np.matrix([[1.0, 0.0, 0.0, 0.0],

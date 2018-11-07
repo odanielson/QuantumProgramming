@@ -111,7 +111,7 @@ def parse_sequence(qc, blocks):
         elif block.head.operator == 'macro':
             (name, args, s) = parse_macro(qc, block)
             qc.add_macro(name, qcode.Macro(args, s))
-        elif block.head.operator in ['X', 'H', 'CNOT', 'SWAP']:
+        elif block.head.operator in ['X', 'T', 'Td', 'H', 'CNOT', 'SWAP']:
             op = block.head.operator
             args = block.head.arguments
             seq.add(qcode.Operation(op, args))
