@@ -56,8 +56,8 @@ class Qubits(object):
         self.state = operator * self.state * dagger(operator)
 
 
-Zero = Qubits(state_vector=np.array([[1.0], [0.0]], dtype=np.complex256))
-One = Qubits(state_vector=np.array([[0.0], [1.0]], dtype=np.complex256))
+Zero = Qubits(state_vector=np.array([[1.0], [0.0]], dtype=np.complex64))
+One = Qubits(state_vector=np.array([[0.0], [1.0]], dtype=np.complex64))
 
 
 if __name__ == "__main__":

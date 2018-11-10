@@ -11,8 +11,10 @@ def get_bit(i, k, n):
 
 def trim_probabilities(p):
     """Small and negative(!) probabilities will be set to exactly zero."""
-    e = np.finfo(dtype=np.complex256).eps  # Smallest number s.t. 1.0+e != 1.0
-    return [x if x > 2*e else 0 for x in p]
+    e = np.finfo(dtype=np.complex64).eps  # Smallest number s.t. 1.0+e != 1.0
+    trimmed_p = [x if x > 2*e else 0 for x in p]
+    correction = 1 - sum(trimmed_p)
+    return [x + correction/len(trimmed_p) for x in trimmed_p]
 
 
 def measure(qubits, i):
