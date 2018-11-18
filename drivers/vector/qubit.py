@@ -45,5 +45,5 @@ class Qubits(object):
     def apply_operator(self, operator):
         self.state = np.asarray(operator * self.state)
 
-Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex256))
-One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex256))
+Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex64))
+One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex64))

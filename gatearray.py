@@ -15,11 +15,15 @@ I = namedtuple('I', 'i')
 START = namedtuple('START', 'n')
 SWAP = namedtuple('SWAP', 'a b')
 X = namedtuple('X', 'i')
+T = namedtuple('T', 'i')
+Td = namedtuple('Td', 'i')
 
 str_to_gate = {
     'CNOT': CNOT,
     'H': H,
     'I': I,
     'SWAP': SWAP,
-    'X': X
+    'X': X,
+    'T': T,
+    'Td': Td
 }
