@@ -1,4 +1,5 @@
 
+import numpy as np
 import sys
 
 from qcodecompiler import qcompile
@@ -29,5 +30,8 @@ if __name__ == "__main__":
 
     else:
         print("Driver %s not found" % driver)
+
+    np.set_printoptions(precision=2)  # Two decimals
+    np.set_printoptions(suppress=True)  # Round small numbers to zero
 
     run(filename)
