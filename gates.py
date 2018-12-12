@@ -67,6 +67,8 @@ ToOne = Gate('OneProjection',
 
 X = Gate('X', np.matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex64))
 
+Z = Gate('Z', np.matrix([[1.0, 0.0], [0.0, -1.0]], dtype=np.complex64))
+
 T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]], dtype=np.complex64))
 
 Td = Gate('Td', qmath.dagger(T.matrix))

@@ -1,6 +1,6 @@
 
 import gatearray
-from gates import Hadamard, Identity, X, T, Td, CNOT, SWAP
+from gates import Hadamard, Identity, X, Z, T, Td, CNOT, SWAP
 from qubit import Qubits, Zero, One
 from measure import measure
 
@@ -8,6 +8,7 @@ from measure import measure
 gate_array_gate_to_simulator_gate_map = {
     gatearray.H: Hadamard,
     gatearray.X: X,
+    gatearray.Z: Z,
     gatearray.T: T,
     gatearray.Td: Td,
     gatearray.CNOT: CNOT,
@@ -51,10 +52,11 @@ def run_gate_array(gate_array):
     num_qbits = start.n
 
     qubits = Qubits(num_qbits)
-    print "Initial state:", pretty_format_distribution(qubits.distribution())
+    print "Initial distribution:", pretty_format_distribution(qubits.distribution())
 
     for gate in gate_array:
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
+        print("running %s" % simulator_gate)
         if isinstance(gate, gatearray.CNOT):
             expand_double_gate(simulator_gate, gate.ctrl, gate.target,
                                num_qbits) | qubits
@@ -66,7 +68,7 @@ def run_gate_array(gate_array):
         else:
             expand_single_gate(simulator_gate, gate.i, num_qbits) | qubits
 
-    print "Final state:", pretty_format_distribution(qubits.distribution())
+    print "Final distribution:", pretty_format_distribution(qubits.distribution())
     measurement = [measure(qubits, i) for i in xrange(num_qbits)]
     print "Qubit measure:", ", ".join((str(q) for q in measurement))
     return measurement
