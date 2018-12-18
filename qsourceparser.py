@@ -130,11 +130,10 @@ def parse_qcode(blocks):
     return qc
 
 
-def parse(text, verbose=True):
+def parse(text, verbose=False, print_lines=False, print_qcode=False):
     """Return QCode object from qsource text input."""
-
     lines = parse_lines(text)
-    if verbose:
+    if verbose or print_lines:
         print "\nLine representation:\n"
         print "\n".join([str(line) for line in lines])
 
@@ -152,12 +151,9 @@ def parse(text, verbose=True):
 
     qc = parse_qcode(blocks)
 
-    def print_qcode(qc):
-        print repr(qc)
-
-    if verbose:
+    if verbose or print_qcode:
         print "\nQcode representation\n"
-        print_qcode(qc)
+        print repr(qc)
 
     return qc
 

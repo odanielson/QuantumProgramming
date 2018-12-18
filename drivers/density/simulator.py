@@ -42,12 +42,11 @@ def expand_double_gate(gate, i, j, num_qbits):
     return operator
 
 
-def run_gate_array(gate_array):
+def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=False):
     start = gate_array.pop(0)
     num_qbits = start.n
 
     qubits = Qubits(num_qbits)
-    print "Initial distribution:", qubits.distribution()
 
     for gate in gate_array:
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
@@ -62,9 +61,13 @@ def run_gate_array(gate_array):
         else:
             expand_single_gate(simulator_gate, gate.i, num_qbits) | qubits
 
-    print "Final distribution:", qubits.distribution()
-    measurement = [measure(qubits, i) for i in xrange(num_qbits)]
-    print "Qubit measure:", ", ".join((str(q) for q in measurement))
+    if print_dist:
+        print "Final distribution:", qubits.distribution()
+    if print_state:
+        print "Final state:", qubits.state
+    for _ in xrange(num_measures):
+        measurement = [measure(qubits, i, project=False) for i in xrange(num_qbits)]
+        print "Qubit measure:", ", ".join((str(q) for q in measurement))
     return measurement
 
 def simple_test():

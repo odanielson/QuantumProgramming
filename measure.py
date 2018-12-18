@@ -17,7 +17,7 @@ def trim_probabilities(p):
     return [x + correction/len(trimmed_p) for x in trimmed_p]
 
 
-def measure(qubits, i):
+def measure(qubits, i, project=True):
     """Measure qubit `i` in `qubits` and return 0 or 1. Index `i` from 0."""
     assert i < qubits.n, (
         "qubit %d can not be measured in %d-qubit state" % (i, qubits.n))
@@ -26,9 +26,10 @@ def measure(qubits, i):
     p = trim_probabilities(p)
     index = np.random.choice(np.arange(2**qubits.n), p=p)
     result = get_bit(i, index, qubits.n)
-    projection = ToZero if result == 0 else ToOne
-    transform = (Identity ** i) * projection * (Identity ** (qubits.n-i-1))
-    transform | qubits
-    qubits.normalize()
+    if project:
+        projection = ToZero if result == 0 else ToOne
+        transform = (Identity ** i) * projection * (Identity ** (qubits.n-i-1))
+        transform | qubits
+        qubits.normalize()
 
     return result
