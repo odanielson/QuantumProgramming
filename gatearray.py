@@ -15,6 +15,9 @@ I = namedtuple('I', 'i')
 START = namedtuple('START', 'n')
 SWAP = namedtuple('SWAP', 'a b')
 X = namedtuple('X', 'i')
+Y = namedtuple('Y', 'i')
+Z = namedtuple('Z', 'i')
+S = namedtuple('S', 'i')
 T = namedtuple('T', 'i')
 Td = namedtuple('Td', 'i')
 
@@ -24,6 +27,11 @@ str_to_gate = {
     'I': I,
     'SWAP': SWAP,
     'X': X,
+    'Y': Y,
+    'Z': Z,
+    'S': S,
     'T': T,
     'Td': Td
 }
+
+gate_names = str_to_gate.keys()

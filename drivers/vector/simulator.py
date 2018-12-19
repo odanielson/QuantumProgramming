@@ -1,6 +1,6 @@
 
 import gatearray
-from gates import Hadamard, Identity, X, T, Td, CNOT, SWAP
+from gates import Hadamard, Identity, X, Y, Z, S, T, Td, CNOT, SWAP
 from qubit import Qubits, Zero, One
 from measure import measure
 
@@ -8,6 +8,9 @@ from measure import measure
 gate_array_gate_to_simulator_gate_map = {
     gatearray.H: Hadamard,
     gatearray.X: X,
+    gatearray.Y: Y,
+    gatearray.Z: Z,
+    gatearray.S: S,
     gatearray.T: T,
     gatearray.Td: Td,
     gatearray.CNOT: CNOT,

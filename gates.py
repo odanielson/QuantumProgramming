@@ -67,9 +67,15 @@ ToOne = Gate('OneProjection',
 
 X = Gate('X', np.matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex64))
 
+Y = Gate('Y', np.matrix([[0.0, 0-1j], [0+1j, 0.0]], dtype=np.complex64))
+
+Z = Hadamard | X | Hadamard
+
+S = Gate('S', np.matrix([[1.0, 0.0], [0.0, 0.0+1j]], dtype=np.complex64))
+
 T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]], dtype=np.complex64))
 
-Td = Gate('Td', qmath.dagger(T.matrix))
+Td = T | Z | S
 
 CNOT = Gate('CNOT',
             np.matrix([[1.0, 0.0, 0.0, 0.0],
