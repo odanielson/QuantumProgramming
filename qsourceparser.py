@@ -137,6 +137,9 @@ def parse_sequence(qc, blocks):
         elif block.head.operator == 'macro':
             (name, args, s) = parse_macro(qc, block)
             qc.add_macro(name, qcode.Macro(args, s))
+        elif block.head.operator == 'msg':
+            args = block.head.arguments
+            seq.add(qcode.Message(args))
         elif block.head.operator in gatearray.gate_names:
             op = block.head.operator
             args = block.head.arguments

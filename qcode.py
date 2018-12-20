@@ -13,6 +13,16 @@ class Macro:
         return 'Macro(%s): %s' % (self.arguments, self.sequence)
 
 
+class Message:
+    """A message of some kind defined by its parameters."""
+
+    def __init__(self, arguments):
+        self.arguments = arguments
+
+    def __repr__(self):
+        return 'Message(%s)' % (self.arguments)
+
+
 class Register:
     """A register with one to many qubits."""
 

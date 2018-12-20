@@ -9,10 +9,12 @@ Important notes:
 from collections import namedtuple
 
 
+START = namedtuple('START', 'n')
+MSG = namedtuple('MSG', 'type label args')
+
 CNOT = namedtuple('CNOT', 'ctrl target')
 H = namedtuple('H', 'i')
 I = namedtuple('I', 'i')
-START = namedtuple('START', 'n')
 SWAP = namedtuple('SWAP', 'a b')
 X = namedtuple('X', 'i')
 Y = namedtuple('Y', 'i')
