@@ -5,6 +5,7 @@ from qubit import Qubits, Zero, One
 from measure import measure
 import qmath
 
+
 gate_array_gate_to_simulator_gate_map = {
     gatearray.H: Hadamard,
     gatearray.X: X,
@@ -45,6 +46,19 @@ def expand_double_gate(gate, i, j, num_qbits):
     return operator
 
 
+def handle_msg(label, args, qubits):
+    if len(args) > 0 and args[0] == 'left':
+        print 'state @%s:' % (label)
+        m = int(args[1])
+        qmath.print_subsystem_dist(qubits.state, m, qubits.n - m)
+    elif len(args) > 0 and args[0] == 'right':
+        print 'state @%s' % (label)
+        m = int(args[1])
+        qmath.print_subsystem_dist(qubits.state, qubits.n - m, m, right=True)
+    else:
+        print 'state @%s: %s' % (label, qmath.rough_np_array(qubits.state))
+
+
 def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=False):
     start = gate_array.pop(0)
     num_qbits = start.n
@@ -53,7 +67,7 @@ def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=Fal
 
     for gate in gate_array:
         if isinstance(gate, gatearray.MSG):
-            print 'state @%s: %s' % (gate.label, qmath.rough_np_array(qubits.state))
+            handle_msg(gate.label, gate.args, qubits)
             continue
 
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
