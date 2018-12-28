@@ -62,6 +62,20 @@ def basis_density_states(n):
     return [density_operator(bv) for bv in basis_vectors]
 
 
+def print_mixture_summary(rho):
+    """Summarize pure states making up a mixed state rho by printing
+    the probability and the state coefficients. The natural eigenstates
+    are used; other mixtures of states may yield the same density
+    operator rho."""
+
+    evalues, evectors = np.linalg.eigh(rho)
+
+    for i, l in enumerate(evalues):
+        if np.isclose(l, 0):
+            continue
+        print 'P=%.3f: %s' % (l, rough_np_array(evectors[:, i]))
+
+
 def print_density_summary(rho):
     """Given a density matrix rho, present it's mixture with probability
     for each pure state, the pure state itself (probability _wave_) and
@@ -72,12 +86,7 @@ def print_density_summary(rho):
     assert M == N
     n = int(np.log2(N))
 
-    evalues, evectors = np.linalg.eigh(rho)
-
-    for i, l in enumerate(evalues):
-        if np.isclose(l, 0):
-            continue
-        print 'P=%.3f: %s' % (l, rough_np_array(evectors[:, i]))
+    print_mixture_summary(rho)
 
     warnings.simplefilter('ignore', np.ComplexWarning)
 
@@ -88,22 +97,29 @@ def print_density_summary(rho):
         print 'P(%s) = %.4f' % (next(str_basis_vectors), p)
 
 
-def partial_trace(rho, n_A, n_B):
+def partial_trace(rho, n_A, n_B, trace_left=False):
     # View N dim Hilbert space as composed of one 2^n_A-dim and one 2^n_B-dim space.
     reshaped = rho.reshape((2**n_A, 2**n_B, 2**n_A, 2**n_B))
     #print 'Reshaped:\n%s' % reshaped
 
-    reduced = np.einsum('jiki->jk', reshaped)
+    if trace_left:
+        reduced = np.einsum('ijik->jk', reshaped)
+    else:
+        reduced = np.einsum('jiki->jk', reshaped)
     #print 'Reduced density operator for first qubit:\n%s' % reduced
 
     return reduced
 
 
-def print_subsystem_dist(v, n_A, n_B):
+def print_subsystem_dist(v, n_A, n_B, right=False):
     """Given an n-dimensional pure state vector v, print the probability
     distribution for subsystem A. It is assumed v belongs to a vector
     space considered as composed by two subsystem A and B, where A has
-    n_A bits and B has n_B bits."""
+    n_A bits and B has n_B bits.
+
+    If the parameter `right` is true, the probability distribution for
+    subsystem B will be printed instead, tracing out subsystem A.
+    """
 
     n = np.log2(len(v))
     assert n_A + n_B == n
@@ -111,8 +127,8 @@ def print_subsystem_dist(v, n_A, n_B):
 
     #print 'Sum(v^2) = %0.2f. Squared v:\n%s' % (sum(v**2), v**2)
     rho = density_operator(v)
-    rho_A = partial_trace(rho, n_A, n_B)
-    print_density_summary(rho_A)
+    rho_S = partial_trace(rho, n_A, n_B, trace_left=right)
+    print_density_summary(rho_S)
 
 
 if __name__ == "__main__":
@@ -124,8 +140,13 @@ if __name__ == "__main__":
     v = np.ones((N, 1)) / r(N)
 
     # Skew probabilities a bit to see a difference after partial trace.
-    # Hint: 5^2 + 12^2 = 13^2.
-    v[0][0] = 5/(r(N/2)*13)
-    v[N-1][0] = 12/(r(N/2)*13)
+    # Hint: 9^2 + 40^2 = 41^2. 13^2 + 84^2 = 85^2.
+    v[0][0] = 9/(r(N/2)*41)
+    v[N-1][0] = 40/(r(N/2)*41)
+
+    v[1][0] = 13/(r(N/2)*85)
+    v[N-2][0] = 84/(r(N/2)*85)
+
 
     print_subsystem_dist(v, 4, 3)
+    print_subsystem_dist(v, 4, 3, right=True)
