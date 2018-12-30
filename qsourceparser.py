@@ -36,13 +36,38 @@ def no_comments(line):
     return line
 
 
-def parse_lines(text):
-    """Return `[]Line` from qsource found in `text (str)`."""
+def parse_raw_lines(text):
+    """Return `[]RawLine` from qsource found in `text (str)`.
+    Recursively include content from files specified with the
+    `include` directive."""
+
     raw_lines = [RawLine(i, no_comments(line)) for i, line in
                  enumerate(text.splitlines())]
 
     raw_lines = [line for line in raw_lines if
                  line.raw and not line.raw.isspace()]
+
+    to_include = []
+    for i, line in enumerate(raw_lines):
+        elements = line.raw.split()
+        if elements[0] == 'include':
+            filename = elements[1]
+            to_include.append((i, filename))
+            del raw_lines[i]
+
+    for (index, filename) in to_include:
+        with open(filename, 'r') as fo:
+            included_text = fo.read()
+            included_lines = parse_raw_lines(included_text)
+            raw_lines[index:index] = included_lines
+
+    return raw_lines
+
+
+def parse_lines(text):
+    """Return `[]Line` from qsource found in `text (str)`."""
+
+    raw_lines = parse_raw_lines(text)
 
     indented_lines = [IndentedLine(
         line.linenumber, line.raw, indentation_level(line))

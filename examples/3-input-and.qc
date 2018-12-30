@@ -8,24 +8,7 @@ register x2[2]
 register a0[3]
 register r0[4]
 
-macro toffoli a b c
-    H c
-    CNOT b c
-    Td c
-    CNOT a c
-    T c
-    CNOT b c
-    Td c
-    CNOT a c
-    T b
-    T c
-    H c
-    SWAP b c
-    CNOT a c
-    T a
-    Td c
-    CNOT a c
-    SWAP b c
+include examples/stdlib.qc
 
 macro AND3 i1 i2 i3 a r  ; ix is input, a ancillary qubit, r result
     toffoli i1 i2 a
