@@ -2,8 +2,8 @@
 
 import copy
 
-from qcode import Operation, MacroCall, Sequence
-from gatearray import str_to_gate, START
+from qcode import Operation, MacroCall, Message, Sequence
+from gatearray import str_to_gate, START, MSG
 
 
 def get_num_bits(qcode):
@@ -63,6 +63,11 @@ def compile_operation(registers, operation):
     return gate_array
 
 
+def compile_message(registers, msg):
+    gate_array = [MSG(msg.arguments[0], msg.arguments[1], msg.arguments[2:])]
+    return gate_array
+
+
 def compile_sequence(qcode, sequence):
     gate_array = []
     for item in sequence.elements:
@@ -76,5 +81,8 @@ def compile_sequence(qcode, sequence):
                 macro.arguments, item.arguments)
             unrolled = unroll_sequence(macro.sequence, call_symbols)
             gate_array += compile_sequence(qcode, unrolled)
+
+        elif isinstance(item, Message):
+            gate_array += compile_message(qcode.registers, item)
 
     return gate_array

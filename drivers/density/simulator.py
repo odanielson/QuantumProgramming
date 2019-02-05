@@ -52,6 +52,10 @@ def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=Fal
     qubits = Qubits(num_qbits)
 
     for gate in gate_array:
+        if isinstance(gate, gatearray.MSG):
+            print 'state @%s:\n%s' % (gate.label, qubits.state)
+            continue
+
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
         if isinstance(gate, gatearray.CNOT):
             expand_double_gate(simulator_gate, gate.ctrl, gate.target,
