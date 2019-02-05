@@ -62,18 +62,29 @@ def basis_density_states(n):
     return [density_operator(bv) for bv in basis_vectors]
 
 
-def print_mixture_summary(rho):
+def print_mixture_summary(rho, evalues, evectors):
     """Summarize pure states making up a mixed state rho by printing
     the probability and the state coefficients. The natural eigenstates
     are used; other mixtures of states may yield the same density
-    operator rho."""
-
-    evalues, evectors = np.linalg.eigh(rho)
+    operator rho. Since eigenvalues and eigenvectors are likley needed
+    outside this function, the are passed as parameter although the
+    are implicit in rho."""
 
     for i, l in enumerate(evalues):
         if np.isclose(l, 0):
             continue
         print 'P=%.3f: %s' % (l, rough_np_array(evectors[:, i]))
+
+
+def entropy(ps):
+    """Return entropy for a list of probabilities p."""
+    def log2(x):
+        if np.isclose(x, 0):
+            return 0  # Convention in definition of entropy
+        else:
+            return np.log2(x)
+
+    return sum(map(lambda p: -p*log2(p), ps))
 
 
 def print_density_summary(rho):
@@ -86,7 +97,11 @@ def print_density_summary(rho):
     assert M == N
     n = int(np.log2(N))
 
-    print_mixture_summary(rho)
+    evalues, evectors = np.linalg.eigh(rho)
+
+    print_mixture_summary(rho, evalues, evectors)
+
+    print 'Entropy: %.2f' % entropy(evalues)
 
     warnings.simplefilter('ignore', np.ComplexWarning)
 
