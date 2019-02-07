@@ -7,14 +7,22 @@ from qcodecompiler import qcompile
 from qsourceparser import parse
 
 
-def run(args):
-    text = open(args.filename).read()
-    q_code = parse(text, print_lines=args.print_lines, print_qcode=args.print_qcode)
+def run(program,
+        gate_array_runner,
+        num_measures=1,
+        print_lines=False,
+        print_qcode=False,
+        print_dist=False,
+        print_state=False,
+        return_distribution=False):
+
+    q_code = parse(program, print_lines=print_lines, print_qcode=print_qcode)
     gate_array = qcompile(q_code)
-    run_gate_array(gate_array,
-                   num_measures=args.num_measures,
-                   print_dist=args.print_dist,
-                   print_state=args.print_state)
+    return gate_array_runner(gate_array,
+                             num_measures=num_measures,
+                             print_dist=print_dist,
+                             print_state=print_state,
+                             return_distribution=return_distribution)
 
 
 if __name__ == "__main__":
@@ -40,4 +48,12 @@ if __name__ == "__main__":
     np.set_printoptions(precision=2)  # Two decimals
     np.set_printoptions(suppress=True)  # Round small numbers to zero
 
-    run(args)
+    program = open(args.filename).read()
+
+    run(program,
+        run_gate_array,
+        num_measures=args.num_measures,
+        print_lines=args.print_lines,
+        print_qcode=args.print_qcode,
+        print_dist=args.print_dist,
+        print_state=args.print_state)
