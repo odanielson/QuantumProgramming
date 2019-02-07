@@ -40,3 +40,37 @@ def test_cnot():
 
     result = run(program, run_gate_array, return_distribution=True)
     assert isclose(result, [0.0, 0.0, 0.0, 1.0]).all()
+
+
+def test_toffoli():
+
+    table = {
+        (0,0,0): [1,0,0,0,0,0,0,0],
+        (0,0,1): [0,1,0,0,0,0,0,0],
+        (0,1,0): [0,0,1,0,0,0,0,0],
+        (0,1,1): [0,0,0,1,0,0,0,0],
+        (1,0,0): [0,0,0,0,1,0,0,0],
+        (1,0,1): [0,0,0,0,0,1,0,0],
+        (1,1,0): [0,0,0,0,0,0,0,1],
+        (1,1,1): [0,0,0,0,0,0,1,0]
+    }
+
+    for setup, facit in table.iteritems():
+
+        setup = ["X q%d" % i if v==1 else "" for i, v in enumerate(setup)]
+        program = dedent("""\
+            register q0[0]
+            register q1[1]
+            register q2[2]
+
+            include qclib/toffoli.qc
+
+
+            %s
+            %s
+            %s
+            toffoli q0 q1 q2
+        """ % (setup[0], setup[1], setup[2]))
+
+        result = run(program, run_gate_array, return_distribution=True)
+        assert isclose(result, facit).all(), "%s failed" % program
