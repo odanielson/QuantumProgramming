@@ -40,7 +40,8 @@ class Qubits(object):
         one of the states of the entire quantum computer as a list.
         The position of the list indicates the corresponding state.
         """
-        return np.real(np.multiply(self.state, np.conjugate(self.state))).flatten()
+        return np.real(
+            np.multiply(self.state, np.conjugate(self.state))).flatten()
 
     def apply_operator(self, operator):
         self.state = np.asarray(operator * self.state)

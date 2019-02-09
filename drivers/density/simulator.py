@@ -74,7 +74,8 @@ def run_gate_array(gate_array, num_measures=1, print_dist=False,
     if print_state:
         print "Final state:", qubits.state
     for _ in xrange(num_measures):
-        measurement = [measure(qubits, i, project=False) for i in xrange(num_qbits)]
+        measurement = [measure(qubits, i, project=False)
+                       for i in xrange(num_qbits)]
         print "Qubit measure:", ", ".join((str(q) for q in measurement))
     return qubits.distribution() if return_distribution else measurement
 

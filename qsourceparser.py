@@ -105,18 +105,23 @@ def parse_blocks(lines):
                 blocks.append(Block(head, []))
                 return blocks
         else:
-             blocks.append(Block(head, []))
+            blocks.append(Block(head, []))
 
     return blocks
 
+
 def parse_register(source):
     """Parse a string representation of a register and return a tuple
-    with its name and register object. E.g. 'q2[2,3]' -> (q2,Register([2,3]))."""
+    with its name and register object.
+
+    E.g. 'q2[2,3]' -> (q2,Register([2,3])).
+    """
     (name, _, tail) = source.partition('[')
     (elements0, _, _) = tail.partition(']')
     elements1 = elements0.split(':')
     elements = [int(s) for s in elements1]
     return (name, qcode.Register(elements))
+
 
 def parse_macro(qc, block):
     name = block.head.arguments[0]

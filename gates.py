@@ -1,5 +1,4 @@
 
-import qmath
 import numpy as np
 
 
@@ -73,7 +72,8 @@ Z = Hadamard | X | Hadamard
 
 S = Gate('S', np.matrix([[1.0, 0.0], [0.0, 0.0+1j]], dtype=np.complex64))
 
-T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]], dtype=np.complex64))
+T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]],
+                        dtype=np.complex64))
 
 Td = T | Z | S
 
