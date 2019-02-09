@@ -1,7 +1,10 @@
 
-from simulator import expand_double_gate, expand_single_gate
+import numpy as np
+
+from drivers.vector.simulator import expand_double_gate, expand_single_gate
 from gates import CNOT, Identity, X
-from qubit import Qubits
+from drivers.vector.qubit import Qubits
+
 
 def test_expand_double_gate():
     """Verify double gate operation on non adjacent qubits where first
@@ -23,4 +26,5 @@ def test_expand_double_gate():
                 bits[right] = 1
                 state_index = sum([2**i for i, b in enumerate(reversed(bits))
                                    if (b==1)])
-                assert qubits.distribution()[state_index] == 1.0
+                assert np.isclose(qubits.distribution()[state_index],
+                                  1.0)

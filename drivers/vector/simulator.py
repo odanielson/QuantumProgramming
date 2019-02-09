@@ -59,7 +59,8 @@ def handle_msg(label, args, qubits):
         print 'state @%s: %s' % (label, qmath.rough_np_array(qubits.state))
 
 
-def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=False):
+def run_gate_array(gate_array, num_measures=1, print_dist=False,
+                   print_state=False, return_distribution=False):
     start = gate_array.pop(0)
     num_qbits = start.n
 
@@ -89,7 +90,8 @@ def run_gate_array(gate_array, num_measures=1, print_dist=False, print_state=Fal
     for _ in xrange(num_measures):
         measurement = [measure(qubits, i, project=False) for i in xrange(num_qbits)]
         print "Qubit measure:", ", ".join((str(q) for q in measurement))
-    return measurement
+    return qubits.distribution() if return_distribution else measurement
+
 
 def simple_test():
 
