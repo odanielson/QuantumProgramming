@@ -27,7 +27,13 @@ def expand_single_gate(gate, i, num_qbits):
 
 
 def expand_double_gate(gate, i, j, num_qbits):
-    assert i < j, "Operation only implemented for i < j"
+    assert i != j, "i and j can not be the same in double gate"
+
+    if j < i:
+
+        swap_operator = expand_double_gate(SWAP, j, i, num_qbits)
+        operator = expand_double_gate(gate, j, i, num_qbits)
+        return swap_operator | operator | swap_operator
 
     k = j - 1
     left_bits = k
