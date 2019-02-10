@@ -10,15 +10,15 @@ from qrun import run
 def test_or():
 
     table = {
-        (0,0,0): [1,0,0,0,0,0,0,0],  # -> 0 0 0
-        (0,1,0): [0,0,0,1,0,0,0,0],  # -> 0 1 1
-        (1,0,0): [0,0,0,0,0,1,0,0],  # -> 1 0 1
-        (1,1,0): [0,0,0,0,0,0,0,1],  # -> 1 1 1
+        (0, 0, 0): [1, 0, 0, 0, 0, 0, 0, 0],  # -> 0 0 0
+        (0, 1, 0): [0, 0, 0, 1, 0, 0, 0, 0],  # -> 0 1 1
+        (1, 0, 0): [0, 0, 0, 0, 0, 1, 0, 0],  # -> 1 0 1
+        (1, 1, 0): [0, 0, 0, 0, 0, 0, 0, 1],  # -> 1 1 1
     }
 
     for setup, facit in table.iteritems():
 
-        setup = tuple(["X q%d" % i if v==1 else ""
+        setup = tuple(["X q%d" % i if v == 1 else ""
                        for i, v in enumerate(setup)])
         program = dedent("""\
             register q0[0]

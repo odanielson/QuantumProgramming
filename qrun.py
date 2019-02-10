@@ -1,7 +1,6 @@
 
 import argparse
 import numpy as np
-import sys
 
 from qcodecompiler import qcompile
 from qsourceparser import parse
@@ -27,12 +26,18 @@ def run(program,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--driver', choices=['vector', 'density'], default='vector')
-    parser.add_argument('--print-lines', help='display line representation', action='store_true', default=False)
-    parser.add_argument('--print-qcode', help='display qcode representation', action='store_true', default=False)
-    parser.add_argument('--print-dist', help='display final distribution', action='store_true', default=False)
-    parser.add_argument('--print-state', help='display final state', action='store_true', default=False)
-    parser.add_argument('-n', '--num-measures', help='measure n times', type=int, default=1)
+    parser.add_argument('--driver', choices=['vector', 'density'],
+                        default='vector')
+    parser.add_argument('--print-lines', help='display line representation',
+                        action='store_true', default=False)
+    parser.add_argument('--print-qcode', help='display qcode representation',
+                        action='store_true', default=False)
+    parser.add_argument('--print-dist', help='display final distribution',
+                        action='store_true', default=False)
+    parser.add_argument('--print-state', help='display final state',
+                        action='store_true', default=False)
+    parser.add_argument('-n', '--num-measures', help='measure n times',
+                        type=int, default=1)
     parser.add_argument('filename', help='<source file>')
     args = parser.parse_args()
 
@@ -43,7 +48,7 @@ if __name__ == "__main__":
         from drivers.density.simulator import run_gate_array
 
     else:
-        print("Driver %s not found" % driver)
+        print("Driver %s not found" % args.driver)
 
     np.set_printoptions(precision=2)  # Two decimals
     np.set_printoptions(suppress=True)  # Round small numbers to zero

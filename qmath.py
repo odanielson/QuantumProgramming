@@ -113,15 +113,16 @@ def print_density_summary(rho):
 
 
 def partial_trace(rho, n_A, n_B, trace_left=False):
-    # View N dim Hilbert space as composed of one 2^n_A-dim and one 2^n_B-dim space.
+    # View N dim Hilbert space as composed of one 2^n_A-dim and one
+    # 2^n_B-dim space.
     reshaped = rho.reshape((2**n_A, 2**n_B, 2**n_A, 2**n_B))
-    #print 'Reshaped:\n%s' % reshaped
+    # print 'Reshaped:\n%s' % reshaped
 
     if trace_left:
         reduced = np.einsum('ijik->jk', reshaped)
     else:
         reduced = np.einsum('jiki->jk', reshaped)
-    #print 'Reduced density operator for first qubit:\n%s' % reduced
+    # print 'Reduced density operator for first qubit:\n%s' % reduced
 
     return reduced
 
@@ -138,9 +139,8 @@ def print_subsystem_dist(v, n_A, n_B, right=False):
 
     n = np.log2(len(v))
     assert n_A + n_B == n
-    N = 2**n
 
-    #print 'Sum(v^2) = %0.2f. Squared v:\n%s' % (sum(v**2), v**2)
+    # print 'Sum(v^2) = %0.2f. Squared v:\n%s' % (sum(v**2), v**2)
     rho = density_operator(v)
     rho_S = partial_trace(rho, n_A, n_B, trace_left=right)
     print_density_summary(rho_S)
@@ -161,7 +161,6 @@ if __name__ == "__main__":
 
     v[1][0] = 13/(r(N/2)*85)
     v[N-2][0] = 84/(r(N/2)*85)
-
 
     print_subsystem_dist(v, 4, 3)
     print_subsystem_dist(v, 4, 3, right=True)
