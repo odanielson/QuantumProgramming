@@ -30,6 +30,7 @@ def test_x():
 
 
 def test_cnot():
+    """Verify CNOT with control qbit lower than controlled qbit."""
 
     program = dedent("""\
         register q0[0]
@@ -40,6 +41,48 @@ def test_cnot():
 
     result = run(program, run_gate_array, return_distribution=True)
     assert isclose(result, [0.0, 0.0, 0.0, 1.0]).all()
+
+
+def test_superposition_cnot():
+    """Verify CNOT with control qbit lower than controlled qbit."""
+
+    program = dedent("""\
+        register q0[0]
+        register q1[1]
+        H q0
+        CNOT q0 q1
+    """)
+
+    result = run(program, run_gate_array, return_distribution=True)
+    assert isclose(result, [0.5, 0.0, 0.0, 0.5]).all()
+
+
+def test_ud_cnot():
+    """Verify CNOT with control qbit higher than controlled qbit."""
+    program = dedent("""\
+        register q0[0]
+        register q1[1]
+        register q2[2]
+        register q3[3]
+        X q2
+        CNOT q2 q0
+    """)
+
+    result = run(program, run_gate_array)
+    assert isclose(result, [1.0, 0.0, 1.0, 0.0]).all()
+
+
+def test_superposition_ud_cnot():
+    """Verify superposition CNOT with control qbit higher than controlled qbit."""
+    program = dedent("""\
+        register q0[0]
+        register q1[1]
+        H q1
+        CNOT q1 q0
+    """)
+
+    result = run(program, run_gate_array, return_distribution=True)
+    assert isclose(result, [0.5, 0.0, 0.0, 0.5]).all()
 
 
 def test_toffoli():
