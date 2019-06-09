@@ -198,8 +198,8 @@ void init()
 
 void find(twobit_op target)
 {
-    int i1, i2, i3, i4;
-    twobit_op tmp1, tmp2, tmp3;
+    int i1, i2, i3, i4, i5;
+    twobit_op tmp1, tmp2, tmp3, result;
     long k=0;
 
     for (i1=0; i1<num_pairs; i1++)
@@ -213,11 +213,15 @@ void find(twobit_op target)
                 for (i4=0; i4<num_pairs; i4++)
                 {
                     multiply4x4(tmp2, pairs[i4], tmp3);
-                    if (equals(target, tmp3))
-                    { 
-                        printf("%s : %s : %s : %s\n", pairs_name[i1], pairs_name[i2], pairs_name[i3], pairs_name[i4]);
+                    for (i5=0; i5<num_pairs; i5++)
+                    {
+                        multiply4x4(tmp2, pairs[i4], result);
+                        if (equals(target, result))
+                        {
+                            printf("%s : %s : %s : %s : %s\n", pairs_name[i1], pairs_name[i2], pairs_name[i3], pairs_name[i4], pairs_name[i5]);
+                        }
+                        k++;
                     }
-                    k++;
                 }
             }
         }
