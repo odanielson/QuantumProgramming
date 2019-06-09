@@ -11,13 +11,14 @@ cplx Id[2][2] = {{1,0}, {0,1}};
 cplx X[2][2] = {{0,1}, {1,0}};
 cplx Y[2][2] = {{0,-I}, {I,0}};
 cplx Z[2][2] = {{1,0}, {0,-1}};
+cplx H[2][2] = {{1,1}, {1,-1}};
 cplx S[2][2] = {{1,0}, {0,I}};
 cplx T[2][2] = {{1,0}, {0, 0}};
 cplx Td[2][2];
 
-const int num_1d_ops = 7;
-onebit_op* obops[num_1d_ops] = {&Id, &X, &Y, &Z, &S, &T, &Td};
-const char* obops_name[num_1d_ops] = {"Id", "X", "Y", "Z", "S", "T", "Td"};
+const int num_1d_ops = 8;
+onebit_op* obops[num_1d_ops] = {&Id, &X, &Y, &Z, &H, &S, &T, &Td};
+const char* obops_name[num_1d_ops] = {"Id", "X", "Y", "Z", "H", "S", "T", "Td"};
 
 cplx CNOT[4][4] = {{1,0,0,0}, {0,1,0,0}, {0,0,0,1}, {0,0,1,0}};
 
@@ -182,7 +183,13 @@ void setup_pairs()
 
 void init()
 {
+    int i, j;
+
     T[1][1] = (1+I)/sqrt(2);
+
+    for (i=0; i<2; i++)
+        for (j=0; j<2; j++)
+            H[i][j] /= sqrt(2);
 
     // Create Td
     multiply(T, Z, Td);
