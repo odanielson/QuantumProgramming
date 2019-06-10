@@ -20,6 +20,7 @@ X = namedtuple('X', 'i')
 Y = namedtuple('Y', 'i')
 Z = namedtuple('Z', 'i')
 S = namedtuple('S', 'i')
+Sd = namedtuple('Sd', 'i')
 T = namedtuple('T', 'i')
 Td = namedtuple('Td', 'i')
 
@@ -32,6 +33,7 @@ str_to_gate = {
     'Y': Y,
     'Z': Z,
     'S': S,
+    'Sd': Sd,
     'T': T,
     'Td': Td
 }
