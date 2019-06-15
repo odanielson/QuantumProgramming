@@ -85,7 +85,7 @@ void find(twobit_op target)
                     for (i5=0; i5<num_pairs; i5++)
                     {
                         multiply4x4(tmp2, pairs[i4], result);
-                        if (naive_equals(target, result))
+                        if (fowler_equals(target, result))
                         {
                             printf("%s : %s : %s : %s : %s\n", pairs_name[i1], pairs_name[i2], pairs_name[i3], pairs_name[i4], pairs_name[i5]);
                         }

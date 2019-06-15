@@ -131,4 +131,51 @@ int naive_equals(twobit_op A, twobit_op B)
     return 1;
 }
 
+cplx trace(twobit_op A)
+{
+    int i;
+
+    cplx sum = 0;
+    for (i=0; i<4; i++)
+    {
+        sum += A[i][i];
+    }
+    return sum;
+}
+
+// From Fowler 2018, "Constructing arbitrary Steane code single
+// logical qubit fault-tolerant gates". Rather than taking the
+// square root as done in the article, just use epsilon^2 in
+// comparisons to avoid needless computation.
+// NOTE: First argument is conjugate-transposed (hence Ad or A
+// dagger).
+float fowler_metric_squared(cplx Ad[4][4], cplx B[4][4])
+{
+    const int m = 4; // Hard-coded for 4x4 matrices.
+    twobit_op C;
+    multiply4x4(Ad, B, C);
+    return (m - cabsf(trace(C))) / m;
+}
+
+int fowler_equals(twobit_op A, twobit_op B)
+{
+    const float epsilon_squared = 0.01; // = 0.1^2
+    return fowler_metric_squared(A, B) < epsilon_squared;
+}
+
+void conjugate_transpose(twobit_op A)
+{
+    int i, j;
+    for (i=0; i<4; i++)
+    {
+        for (j=0; j<i; j++)
+        {
+            cplx tmp;
+            tmp = A[i][j];
+            A[i][j] = conjf(A[j][i]);
+            A[j][i] = conjf(tmp);
+        }
+    }
+}
+
 

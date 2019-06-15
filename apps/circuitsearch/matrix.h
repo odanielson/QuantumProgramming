@@ -22,3 +22,6 @@ void copy4x4(twobit_op A, twobit_op B);
 // Compare element-wise and return false if an element is not close.
 int naive_equals(twobit_op A, twobit_op B);
 
+int fowler_equals(twobit_op A, twobit_op);
+void conjugate_transpose(twobit_op A);
+
