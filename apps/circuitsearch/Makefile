@@ -1,8 +1,8 @@
 
 all: circuitsearch cuda_search
 
-circuitsearch: main.c
-	clang -lm main.c -o circuitsearch
+circuitsearch: main.c matrix.c
+	clang -O2 -lm main.c matrix.c -o circuitsearch
 
 
 cuda_search: cuda_search.cu
