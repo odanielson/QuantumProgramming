@@ -43,7 +43,7 @@ class Gate(object):
     def __or__(self, target):
         """Multiply gates or Apply gate on `qubits`."""
         if isinstance(target, Gate):
-            return Gate('Custom', self.matrix * target.matrix)
+            return Gate('%s*%s' % (self.name, target.name), self.matrix * target.matrix)
 
         # target is qubits
         target.apply_operator(self.matrix)
@@ -69,13 +69,17 @@ X = Gate('X', np.matrix([[0.0, 1.0], [1.0, 0.0]], dtype=np.complex64))
 Y = Gate('Y', np.matrix([[0.0, 0-1j], [0+1j, 0.0]], dtype=np.complex64))
 
 Z = Hadamard | X | Hadamard
+Z.name = 'Z'
 
 S = Gate('S', np.matrix([[1.0, 0.0], [0.0, 0.0+1j]], dtype=np.complex64))
+Sd = Gate('Sd', np.matrix([[1.0, 0.0], [0.0, 0.0-1j]], dtype=np.complex64))
+
 
 T = Gate('T', np.matrix([[1.0, 0.0], [0.0, (1+1j)/np.sqrt(2)]],
                         dtype=np.complex64))
 
 Td = T | Z | S
+Td.name = 'Td'
 
 CNOT = Gate('CNOT',
             np.matrix([[1.0, 0.0, 0.0, 0.0],
