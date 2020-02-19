@@ -1,7 +1,7 @@
-import gatearray
-from gates import Hadamard, Identity, X, Y, Z, S, T, Td, CNOT, SWAP
+from qp import gatearray
+from qp.gates import Hadamard, Identity, X, Y, Z, S, T, Td, CNOT, SWAP
 from .qubit import Qubits, Zero, One
-from measure import measure
+from qp.measure import measure
 
 
 gate_array_gate_to_simulator_gate_map = {

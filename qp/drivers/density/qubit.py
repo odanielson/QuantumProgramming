@@ -1,6 +1,6 @@
-from qmath import proj, dagger
-
 import numpy as np
+
+from qp.qmath import proj, dagger
 
 
 class Qubits(object):
