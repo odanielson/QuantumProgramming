@@ -1,5 +1,6 @@
 # QuantumProgramming
 
+![unittests](https://github.com/odanielson/QuantumProgramming/workflows/unittests/badge.svg)
 
 ## Quantum Stack
 
