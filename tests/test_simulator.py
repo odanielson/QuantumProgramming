@@ -1,4 +1,3 @@
-
 import numpy as np
 
 from drivers.vector.simulator import expand_double_gate, expand_single_gate
@@ -24,7 +23,7 @@ def test_expand_double_gate():
                 bits = [0] * n_qubits
                 bits[left] = 1
                 bits[right] = 1
-                state_index = sum([2**i for i, b in enumerate(reversed(bits))
-                                   if (b == 1)])
-                assert np.isclose(qubits.distribution()[state_index],
-                                  1.0)
+                state_index = sum(
+                    [2 ** i for i, b in enumerate(reversed(bits)) if (b == 1)]
+                )
+                assert np.isclose(qubits.distribution()[state_index], 1.0)

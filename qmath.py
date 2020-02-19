@@ -1,4 +1,3 @@
-
 import itertools
 import numpy as np
 import warnings
@@ -31,26 +30,26 @@ def rough_complex(x):
     re = np.real(x)
     im = np.imag(x)
     if np.isclose(re, 0) and np.isclose(im, 0):
-        return '0'
+        return "0"
     elif np.isclose(re, 0):
-        return 'i%.2f' % im
+        return "i%.2f" % im
     elif np.isclose(im, 0):
-        return '%.2f' % re
+        return "%.2f" % re
     else:
-        return '%.2f+i%.2f' % (re, im)
+        return "%.2f+i%.2f" % (re, im)
 
 
 def rough_np_array(arr):
     elements = [rough_complex(x) for x in arr]
-    return ' '.join(elements)
+    return " ".join(elements)
 
 
 def basis_states_str(n):
     """Return generator of n-dim basis vectors as strings. E.g. for n=2
     you get ['|00>', '|01>', '|10>', '|11>'] when you iterate."""
 
-    str_vectors = itertools.imap(''.join, itertools.product('01', repeat=n))
-    return ('|%s>' % v for v in str_vectors)
+    str_vectors = itertools.imap("".join, itertools.product("01", repeat=n))
+    return ("|%s>" % v for v in str_vectors)
 
 
 def basis_density_states(n):
@@ -73,18 +72,19 @@ def print_mixture_summary(rho, evalues, evectors):
     for i, l in enumerate(evalues):
         if np.isclose(l, 0):
             continue
-        print 'P=%.3f: %s' % (l, rough_np_array(evectors[:, i]))
+        print("P=%.3f: %s" % (l, rough_np_array(evectors[:, i])))
 
 
 def entropy(ps):
     """Return entropy for a list of probabilities p."""
+
     def log2(x):
         if np.isclose(x, 0):
             return 0  # Convention in definition of entropy
         else:
             return np.log2(x)
 
-    return sum(map(lambda p: -p*log2(p), ps))
+    return sum(map(lambda p: -p * log2(p), ps))
 
 
 def print_density_summary(rho):
@@ -101,27 +101,27 @@ def print_density_summary(rho):
 
     print_mixture_summary(rho, evalues, evectors)
 
-    print 'Entropy: %.2f' % entropy(evalues)
+    print("Entropy: %.2f" % entropy(evalues))
 
-    warnings.simplefilter('ignore', np.ComplexWarning)
+    warnings.simplefilter("ignore", np.ComplexWarning)
 
     str_basis_vectors = basis_states_str(n)
 
     for bs in basis_density_states(n):
         p = np.trace(rho * bs)
-        print 'P(%s) = %.4f' % (next(str_basis_vectors), p)
+        print("P(%s) = %.4f" % (next(str_basis_vectors), p))
 
 
 def partial_trace(rho, n_A, n_B, trace_left=False):
     # View N dim Hilbert space as composed of one 2^n_A-dim and one
     # 2^n_B-dim space.
-    reshaped = rho.reshape((2**n_A, 2**n_B, 2**n_A, 2**n_B))
+    reshaped = rho.reshape((2 ** n_A, 2 ** n_B, 2 ** n_A, 2 ** n_B))
     # print 'Reshaped:\n%s' % reshaped
 
     if trace_left:
-        reduced = np.einsum('ijik->jk', reshaped)
+        reduced = np.einsum("ijik->jk", reshaped)
     else:
-        reduced = np.einsum('jiki->jk', reshaped)
+        reduced = np.einsum("jiki->jk", reshaped)
     # print 'Reduced density operator for first qubit:\n%s' % reduced
 
     return reduced
@@ -151,16 +151,16 @@ if __name__ == "__main__":
     np.set_printoptions(suppress=True)  # Round small numbers to zero
 
     r = np.sqrt
-    N = 2**7
+    N = 2 ** 7
     v = np.ones((N, 1)) / r(N)
 
     # Skew probabilities a bit to see a difference after partial trace.
     # Hint: 9^2 + 40^2 = 41^2. 13^2 + 84^2 = 85^2.
-    v[0][0] = 9/(r(N/2)*41)
-    v[N-1][0] = 40/(r(N/2)*41)
+    v[0][0] = 9 / (r(N / 2) * 41)
+    v[N - 1][0] = 40 / (r(N / 2) * 41)
 
-    v[1][0] = 13/(r(N/2)*85)
-    v[N-2][0] = 84/(r(N/2)*85)
+    v[1][0] = 13 / (r(N / 2) * 85)
+    v[N - 2][0] = 84 / (r(N / 2) * 85)
 
     print_subsystem_dist(v, 4, 3)
     print_subsystem_dist(v, 4, 3, right=True)

@@ -1,5 +1,3 @@
-
-
 import copy
 
 from qcode import Operation, MacroCall, Message, Sequence
@@ -56,7 +54,7 @@ def compile_operation(registers, operation):
     #  Pre-condition: All registers have the same number of qbits.
     register_width = len(registers[operation.arguments[0]].qbits)
 
-    for i in xrange(register_width):
+    for i in range(register_width):
         indices = [registers[arg].qbits[i] for arg in operation.arguments]
         gate_array.append(gate(*indices))
 
@@ -78,7 +76,8 @@ def compile_sequence(qcode, sequence):
         elif isinstance(item, MacroCall):
             macro = qcode.macros[item.name]
             call_symbols = get_macro_to_macrocall_arguments_map(
-                macro.arguments, item.arguments)
+                macro.arguments, item.arguments
+            )
             unrolled = unroll_sequence(macro.sequence, call_symbols)
             gate_array += compile_sequence(qcode, unrolled)
 

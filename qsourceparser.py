@@ -1,4 +1,3 @@
-
 from collections import namedtuple
 import gatearray
 import sys
@@ -23,13 +22,14 @@ def indentation_level(line):
         print("Invalid line %s on line %d" % (line.raw, line.linenumber))
 
     assert level % 4 == 0, (
-        "Indentation level not a multiple of 4 on line %d" % line.linenumber)
+        "Indentation level not a multiple of 4 on line %d" % line.linenumber
+    )
     return level / 4
 
 
 def no_comments(line):
     """Return `line (str)` stripped from comments."""
-    position = line.find(';')
+    position = line.find(";")
     if position >= 0:
         return line[:position]
 
@@ -41,22 +41,22 @@ def parse_raw_lines(text):
     Recursively include content from files specified with the
     `include` directive."""
 
-    raw_lines = [RawLine(i, no_comments(line)) for i, line in
-                 enumerate(text.splitlines())]
+    raw_lines = [
+        RawLine(i, no_comments(line)) for i, line in enumerate(text.splitlines())
+    ]
 
-    raw_lines = [line for line in raw_lines if
-                 line.raw and not line.raw.isspace()]
+    raw_lines = [line for line in raw_lines if line.raw and not line.raw.isspace()]
 
     to_include = []
     for i, line in enumerate(raw_lines):
         elements = line.raw.split()
-        if elements[0] == 'include':
+        if elements[0] == "include":
             filename = elements[1]
             to_include.append((i, filename))
             del raw_lines[i]
 
     for (index, filename) in to_include:
-        with open(filename, 'r') as fo:
+        with open(filename, "r") as fo:
             included_text = fo.read()
             included_lines = parse_raw_lines(included_text)
             raw_lines[index:index] = included_lines
@@ -69,9 +69,10 @@ def parse_lines(text):
 
     raw_lines = parse_raw_lines(text)
 
-    indented_lines = [IndentedLine(
-        line.linenumber, line.raw, indentation_level(line))
-        for line in raw_lines]
+    indented_lines = [
+        IndentedLine(line.linenumber, line.raw, indentation_level(line))
+        for line in raw_lines
+    ]
 
     lines = []
     for indented_line in indented_lines:
@@ -79,11 +80,15 @@ def parse_lines(text):
         fields = instruction.split()
         operator = fields[0]
         arguments = fields[1:]
-        lines.append(Line(indented_line.linenumber,
-                          indented_line.raw,
-                          indented_line.indentation,
-                          operator,
-                          arguments))
+        lines.append(
+            Line(
+                indented_line.linenumber,
+                indented_line.raw,
+                indented_line.indentation,
+                operator,
+                arguments,
+            )
+        )
     return lines
 
 
@@ -116,9 +121,9 @@ def parse_register(source):
 
     E.g. 'q2[2,3]' -> (q2,Register([2,3])).
     """
-    (name, _, tail) = source.partition('[')
-    (elements0, _, _) = tail.partition(']')
-    elements1 = elements0.split(':')
+    (name, _, tail) = source.partition("[")
+    (elements0, _, _) = tail.partition("]")
+    elements1 = elements0.split(":")
     elements = [int(s) for s in elements1]
     return (name, qcode.Register(elements))
 
@@ -136,13 +141,13 @@ def parse_sequence(qc, blocks):
     """
     seq = qcode.Sequence()
     for block in blocks:
-        if block.head.operator == 'register':
+        if block.head.operator == "register":
             (name, reg) = parse_register(block.head.arguments[0])
             qc.add_register(name, reg)
-        elif block.head.operator == 'macro':
+        elif block.head.operator == "macro":
             (name, args, s) = parse_macro(qc, block)
             qc.add_macro(name, qcode.Macro(args, s))
-        elif block.head.operator == 'msg':
+        elif block.head.operator == "msg":
             args = block.head.arguments
             seq.add(qcode.Message(args))
         elif block.head.operator in gatearray.gate_names:
@@ -168,30 +173,30 @@ def parse(text, verbose=False, print_lines=False, print_qcode=False):
     """Return QCode object from qsource text input."""
     lines = parse_lines(text)
     if verbose or print_lines:
-        print "\nLine representation:\n"
-        print "\n".join([str(line) for line in lines])
+        print("\nLine representation:\n")
+        print("\n".join([str(line) for line in lines]))
 
     blocks = parse_blocks(lines)
 
     def print_blocks(blocks):
         for block in blocks:
-            print "%sBlock: %s" % (" " * block.head.indentation * 4,
-                                   block.head)
+            print("%sBlock: %s" % (" " * block.head.indentation * 4, block.head))
             print_blocks(block.body)
 
     if verbose:
-        print "\nBlock representation:\n"
+        print("\nBlock representation:\n")
         print_blocks(blocks)
 
     qc = parse_qcode(blocks)
 
     if verbose or print_qcode:
-        print "\nQcode representation\n"
-        print repr(qc)
+        print("\nQcode representation\n")
+        print(repr(qc))
 
     return qc
 
+
 if __name__ == "__main__":
 
-    text = open(sys.argv[1], 'r').read()
+    text = open(sys.argv[1], "r").read()
     parse(text)
