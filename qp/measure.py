@@ -1,6 +1,6 @@
 import numpy as np
 
-from gates import ToZero, ToOne, Identity
+from qp.gates import ToZero, ToOne, Identity
 
 
 def get_bit(i, k, n):

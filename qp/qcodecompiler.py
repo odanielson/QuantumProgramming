@@ -1,7 +1,7 @@
 import copy
 
-from qcode import Operation, MacroCall, Message, Sequence
-from gatearray import str_to_gate, START, MSG
+from qp.qcode import Operation, MacroCall, Message, Sequence
+from qp.gatearray import str_to_gate, START, MSG
 
 
 def get_num_bits(qcode):

@@ -1,8 +1,8 @@
 import numpy as np
 
-from drivers.vector.simulator import expand_double_gate, expand_single_gate
-from gates import CNOT, X
-from drivers.vector.qubit import Qubits
+from qp.drivers.vector.simulator import expand_double_gate, expand_single_gate
+from qp.gates import CNOT, X
+from qp.drivers.vector.qubit import Qubits
 
 
 def test_expand_double_gate():

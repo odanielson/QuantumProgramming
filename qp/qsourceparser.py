@@ -1,7 +1,8 @@
 from collections import namedtuple
-import gatearray
 import sys
-import qcode
+
+from qp import gatearray, qcode
+
 
 RawLine = namedtuple("RawLine", "linenumber raw")
 

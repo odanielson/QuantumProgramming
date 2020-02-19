@@ -1,8 +1,8 @@
 import argparse
 import numpy as np
 
-from qcodecompiler import qcompile
-from qsourceparser import parse
+from qp.qcodecompiler import qcompile
+from qp.qsourceparser import parse
 
 
 def run(

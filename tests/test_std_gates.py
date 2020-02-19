@@ -2,8 +2,8 @@ from textwrap import dedent
 
 from numpy import isclose
 
-from drivers.vector.simulator import run_gate_array
-from qrun import run
+from qp.drivers.vector.simulator import run_gate_array
+from qp.qrun import run
 
 
 def test_hadamard():
@@ -109,7 +109,7 @@ def test_q0q1q2_toffoli():
         (1, 1, 1): [0, 0, 0, 0, 0, 0, 1, 0],
     }
 
-    for setup, facit in table.iteritems():
+    for setup, facit in table.items():
 
         setup = tuple(("X q%d" % i if v == 1 else "" for i, v in enumerate(setup)))
         program = dedent(
@@ -145,7 +145,7 @@ def test_q2q1q0_toffoli():
         (1, 1, 1): [0, 0, 0, 1, 0, 0, 0, 0],  # 011
     }
 
-    for setup, facit in table.iteritems():
+    for setup, facit in table.items():
 
         setup = tuple(("X q%d" % i if v == 1 else "" for i, v in enumerate(setup)))
         program = dedent(
@@ -181,7 +181,7 @@ def test_q1q0q2_toffoli():
         (1, 1, 1): [0, 0, 0, 0, 0, 0, 1, 0],  # 110
     }
 
-    for setup, facit in table.iteritems():
+    for setup, facit in table.items():
 
         setup = tuple(("X q%d" % i if v == 1 else "" for i, v in enumerate(setup)))
         program = dedent(
@@ -217,7 +217,7 @@ def test_q1q2q0_toffoli():
         (1, 1, 1): [0, 0, 0, 1, 0, 0, 0, 0],  # 011
     }
 
-    for setup, facit in table.iteritems():
+    for setup, facit in table.items():
 
         setup = tuple(("X q%d" % i if v == 1 else "" for i, v in enumerate(setup)))
         program = dedent(
