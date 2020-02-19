@@ -27,7 +27,7 @@ def run(
     )
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--driver", choices=["vector", "density"], default="vector")
     parser.add_argument(
@@ -58,10 +58,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.driver == "vector":
-        from drivers.vector.simulator import run_gate_array
+        from qp.drivers.vector.simulator import run_gate_array
 
     elif args.driver == "density":
-        from drivers.density.simulator import run_gate_array
+        from qp.drivers.density.simulator import run_gate_array
 
     else:
         print("Driver %s not found" % args.driver)
@@ -80,3 +80,7 @@ if __name__ == "__main__":
         print_dist=args.print_dist,
         print_state=args.print_state,
     )
+
+
+if __name__ == "__main__":
+    main()

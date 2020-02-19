@@ -5,4 +5,5 @@ setup(
     version="0.1",
     description="Quantum Programming Simulator",
     packages=["qp"],
+    entry_points={"console_scripts": ["qrun=qp.qrun:main"]},
 )
