@@ -48,7 +48,7 @@ def basis_states_str(n):
     """Return generator of n-dim basis vectors as strings. E.g. for n=2
     you get ['|00>', '|01>', '|10>', '|11>'] when you iterate."""
 
-    str_vectors = itertools.imap("".join, itertools.product("01", repeat=n))
+    str_vectors = map("".join, itertools.product("01", repeat=n))
     return ("|%s>" % v for v in str_vectors)
 
 
