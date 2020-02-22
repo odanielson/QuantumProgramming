@@ -1,7 +1,6 @@
 from qiskit import QuantumCircuit, execute, Aer
 
 from qp import gatearray
-from qp import qmath
 
 
 gate_array_gate_to_simulator_gate_map = {
@@ -16,19 +15,6 @@ gate_array_gate_to_simulator_gate_map = {
     gatearray.I: QuantumCircuit.iden,
     gatearray.SWAP: QuantumCircuit.swap,
 }
-
-
-def handle_msg(label, args, qubits):
-    if len(args) > 0 and args[0] == "left":
-        print("state @%s:" % (label))
-        m = int(args[1])
-        qmath.print_subsystem_dist(qubits.state, m, qubits.n - m)
-    elif len(args) > 0 and args[0] == "right":
-        print("state @%s" % (label))
-        m = int(args[1])
-        qmath.print_subsystem_dist(qubits.state, qubits.n - m, m, right=True)
-    else:
-        print("state @%s: %s" % (label, qmath.rough_np_array(qubits.state)))
 
 
 def distribution_from_counts(counts, n_qubits):
@@ -57,7 +43,7 @@ def run_gate_array(
 
     for gate in gate_array:
         if isinstance(gate, gatearray.MSG):
-            handle_msg(gate.label, gate.args, qubits)
+            print("No support for MSG in qiskit driver yet.")
             continue
 
         simulator_gate = gate_array_gate_to_simulator_gate_map[type(gate)]
