@@ -49,7 +49,7 @@ Available drivers are
 | ----------------- | --------------------- |
 | drivers/vector    | linear algebra driver |
 | drivers/density   | density matrix driver |
-| drivers/qiskit    | driver to run qc program using qiskit (qiskit.org) which in turn support multiple backends (simulators as well as real qc devices) |
+| drivers/qiskit    | driver to run qc program using qiskit (https://github.com/Qiskit/qiskit) which in turn support multiple backends (simulators as well as real qc devices) |
 
 # Installation
 
