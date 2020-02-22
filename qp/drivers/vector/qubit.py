@@ -1,14 +1,11 @@
-
 import numpy as np
 
 
 class Qubits(object):
-
     def __init__(self, n=1, state=None):
 
         if state is not None:
-            assert state.shape == (2**n, 1), (
-                "invalid state %s for n=%d" % (state, n))
+            assert state.shape == (2 ** n, 1), "invalid state %s for n=%d" % (state, n)
             self.n = n
             self.state = state
 
@@ -23,15 +20,15 @@ class Qubits(object):
         if n == 1:
             return self
         elif n > 1:
-            return self * (self ** (n-1))
+            return self * (self ** (n - 1))
 
         raise AssertionError("Qubits ** %d not supported" % n)
 
     def __str__(self):
-        return 'Qubits(%d)' % self.n
+        return "Qubits(%d)" % self.n
 
     def normalize(self):
-        norm = np.sqrt(np.real(np.sum(self.state*np.conjugate(self.state))))
+        norm = np.sqrt(np.real(np.sum(self.state * np.conjugate(self.state))))
         self.state = self.state / norm
 
     def distribution(self):
@@ -40,11 +37,11 @@ class Qubits(object):
         one of the states of the entire quantum computer as a list.
         The position of the list indicates the corresponding state.
         """
-        return np.real(
-            np.multiply(self.state, np.conjugate(self.state))).flatten()
+        return np.real(np.multiply(self.state, np.conjugate(self.state))).flatten()
 
     def apply_operator(self, operator):
         self.state = np.asarray(operator * self.state)
+
 
 Zero = Qubits(state=np.array([[1.0], [0.0]], dtype=np.complex64))
 One = Qubits(state=np.array([[0.0], [1.0]], dtype=np.complex64))

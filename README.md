@@ -1,5 +1,6 @@
 # QuantumProgramming
 
+![unittests](https://github.com/odanielson/QuantumProgramming/workflows/unittests/badge.svg)
 
 ## Quantum Stack
 
@@ -49,15 +50,31 @@ Available drivers are
 | drivers/vector    | linear algebra driver |
 | drivers/density   | density matrix driver |
 
-## Installation
+# Installation
 
-    sudo apt-get install python-numpy
+    pip3 install ./
 
+# Usage
 
-## Usage
+Run a quantum program in file `program.qc` with
 
-    python simulator.py
+    qrun program.qc
 
-or
+or get more help with
 
-    python qcodeprogram.py
+    qrun -h
+
+# Development
+
+Install for development in local env with
+
+    make env
+
+and then use with
+
+    ./env/bin/qrun
+
+Run tests with
+
+    make check
+    make test

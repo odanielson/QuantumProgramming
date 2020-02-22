@@ -1,5 +1,3 @@
-
-
 class Macro:
     """A macro with arguments which can be registers or variables and
     a sequence of operations or macro calls.
@@ -10,7 +8,7 @@ class Macro:
         self.sequence = sequence
 
     def __repr__(self):
-        return 'Macro(%s): %s' % (self.arguments, self.sequence)
+        return "Macro(%s): %s" % (self.arguments, self.sequence)
 
 
 class Message:
@@ -20,7 +18,7 @@ class Message:
         self.arguments = arguments
 
     def __repr__(self):
-        return 'Message(%s)' % (self.arguments)
+        return "Message(%s)" % (self.arguments)
 
 
 class Register:
@@ -30,7 +28,7 @@ class Register:
         self.qbits = qbits
 
     def __repr__(self):
-        return 'Register(%s)' % self.qbits
+        return "Register(%s)" % self.qbits
 
 
 class Operation:
@@ -41,7 +39,7 @@ class Operation:
         self.arguments = arguments
 
     def __repr__(self):
-        return '%s %s' % (self.operator, self.arguments)
+        return "%s %s" % (self.operator, self.arguments)
 
 
 class MacroCall:
@@ -52,13 +50,14 @@ class MacroCall:
         self.arguments = arguments
 
     def __repr__(self):
-        return '%s %s' % (self.name, self.arguments)
+        return "%s %s" % (self.name, self.arguments)
 
 
 class Sequence:
     """
     A sequence of macro calls or operations on qubits or registers.
     """
+
     def __init__(self):
         self.elements = []
 
@@ -66,7 +65,7 @@ class Sequence:
         self.elements.append(element)
 
     def __repr__(self):
-        return 'Seq(%s)' % repr(self.elements)
+        return "Seq(%s)" % repr(self.elements)
 
 
 class QCode:
@@ -92,5 +91,8 @@ class QCode:
         return s
 
     def __repr__(self):
-        return 'Register: %s\n\nMacros:\n%s\nProgram: %s' % (
-            repr(self.registers), self.get_macros(), repr(self.program))
+        return "Register: %s\n\nMacros:\n%s\nProgram: %s" % (
+            repr(self.registers),
+            self.get_macros(),
+            repr(self.program),
+        )
