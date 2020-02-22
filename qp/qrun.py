@@ -29,7 +29,9 @@ def run(
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--driver", choices=["vector", "density"], default="vector")
+    parser.add_argument(
+        "--driver", choices=["vector", "density", "qiskit"], default="vector"
+    )
     parser.add_argument(
         "--print-lines",
         help="display line representation",
@@ -62,6 +64,19 @@ def main():
 
     elif args.driver == "density":
         from qp.drivers.density.simulator import run_gate_array
+
+    elif args.driver == "qiskit":
+        try:
+            from qp.drivers.qiskit.simulator import run_gate_array
+        except ModuleNotFoundError as e:
+            if e == "No module named 'qiskit'":
+                print(
+                    "You need to install Qiskit (qiskit.org) to run the "
+                    "qiskit driver:"
+                )
+                print("\n    ./env/bin/pip install qiskit\n\n")
+            else:
+                raise (e)
 
     else:
         print("Driver %s not found" % args.driver)
