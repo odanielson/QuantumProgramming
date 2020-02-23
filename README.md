@@ -49,6 +49,7 @@ Available drivers are
 | ----------------- | --------------------- |
 | drivers/vector    | linear algebra driver |
 | drivers/density   | density matrix driver |
+| drivers/qiskit    | driver to run qc program using qiskit (https://github.com/Qiskit/qiskit) which in turn support multiple backends (simulators as well as real qc devices) |
 
 # Installation
 
@@ -56,9 +57,9 @@ Available drivers are
 
 # Usage
 
-Run a quantum program in file `program.qc` with
+Run a quantum program in file `examples/hadamard.qc` with
 
-    qrun program.qc
+    qrun examples/hadamard.qc
 
 or get more help with
 
