@@ -18,6 +18,15 @@ gate_array_gate_to_simulator_gate_map = {
 
 
 def distribution_from_counts(counts, n_qubits):
+    """Return distribution of all states given `n_qubits` from `counts` from
+    a Qiskit result.
+
+    Qiskit returns counts for each detected state in the run shots.
+    We first create a state dict with all probabilities set to 0 and then
+    iterate over `counts` and compute the probability for each detected state.
+    Last we map the state dict into an ordered list of probabilities.
+
+    """
     n_states = n_qubits ** 2
     res = dict((("{0:02b}".format(i), 0) for i in range(n_states)))
     total = sum(counts.values())
@@ -68,7 +77,7 @@ def run_gate_array(
 
     if print_dist:
         print(
-            "Final distribution (from shots): ",
+            f"Final distribution (from { num_measures } shots): ",
             distribution_from_counts(result.get_counts(), num_qbits),
         )
     if print_state:
